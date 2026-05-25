@@ -3,14 +3,16 @@ import { cacheTags, fetchGraphQL } from "@/lib/wordpress";
 import type { Category, GetCategoriesResponse } from "@/types/wordpress";
 
 /**
- * Lista de categorias visíveis (com pelo menos 1 post). Ordenado pelo
- * número de posts, decrescente — útil para o filtro da home.
+ * Lista categorias raiz (sem pai) com seus filhos diretos — usada no header
+ * (desktop: dropdown no hover; mobile: drawer expansível). Inclui também
+ * categorias vazias para evitar "quebrar" o menu quando uma seção ainda não
+ * tem posts publicados.
  */
 export const CATEGORIES_QUERY = /* GraphQL */ `
-  query GetCategories($first: Int = 50) {
+  query GetCategories($first: Int = 100) {
     categories(
       first: $first
-      where: { hideEmpty: true, orderby: COUNT, order: DESC }
+      where: { parent: 0, hideEmpty: false, orderby: NAME, order: ASC }
     ) {
       nodes {
         databaseId
@@ -19,6 +21,16 @@ export const CATEGORIES_QUERY = /* GraphQL */ `
         count
         description
         uri
+        children(first: 50) {
+          nodes {
+            databaseId
+            name
+            slug
+            count
+            description
+            uri
+          }
+        }
       }
     }
   }
@@ -28,7 +40,7 @@ export async function getCategories(): Promise<Category[]> {
   try {
     const data = await fetchGraphQL<GetCategoriesResponse>(
       CATEGORIES_QUERY,
-      { first: 50 },
+      { first: 100 },
       { tags: [cacheTags.categories], operationName: "GetCategories" },
     );
     const nodes = data.categories?.nodes ?? [];

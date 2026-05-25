@@ -12,6 +12,26 @@ export const MOCK_CATEGORIES: Category[] = [
     count: 4,
     description: "Tendências e iniciativas em mobilidade urbana.",
     uri: "/category/mobilidade-urbana",
+    children: {
+      nodes: [
+        {
+          databaseId: 11,
+          name: "Transporte Público",
+          slug: "transporte-publico",
+          count: 2,
+          description: null,
+          uri: "/category/mobilidade-urbana/transporte-publico",
+        },
+        {
+          databaseId: 12,
+          name: "Micromobilidade",
+          slug: "micromobilidade",
+          count: 1,
+          description: null,
+          uri: "/category/mobilidade-urbana/micromobilidade",
+        },
+      ],
+    },
   },
   {
     databaseId: 2,
@@ -20,6 +40,7 @@ export const MOCK_CATEGORIES: Category[] = [
     count: 3,
     description: "Transporte limpo e impacto ambiental.",
     uri: "/category/sustentabilidade",
+    children: { nodes: [] },
   },
   {
     databaseId: 3,
@@ -28,6 +49,18 @@ export const MOCK_CATEGORIES: Category[] = [
     count: 2,
     description: "Inovações tecnológicas para mobilidade.",
     uri: "/category/tecnologia",
+    children: {
+      nodes: [
+        {
+          databaseId: 31,
+          name: "Veículos Autônomos",
+          slug: "veiculos-autonomos",
+          count: 1,
+          description: null,
+          uri: "/category/tecnologia/veiculos-autonomos",
+        },
+      ],
+    },
   },
 ];
 

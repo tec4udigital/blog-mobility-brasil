@@ -105,6 +105,9 @@ export interface CategoryNode {
 
 export interface Category extends CategoryNode {
   uri: string | null;
+  children?: {
+    nodes: Array<CategoryNode & { uri: string | null }>;
+  } | null;
 }
 
 export interface PostCategories {

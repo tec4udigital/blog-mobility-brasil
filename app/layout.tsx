@@ -1,16 +1,36 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { Lato } from "next/font/google";
+import { Header } from "@/components/layout/Header";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const lato = Lato({
+  variable: "--font-lato",
   subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const helveticaNeue = localFont({
+  variable: "--font-helvetica",
+  display: "swap",
+  src: [
+    {
+      path: "../public/fonts/HelveticaNeueLTLight.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/HelveticaNeueLTRegular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/HelveticaNeueLTBold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -30,21 +50,10 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${lato.variable} ${helveticaNeue.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-neutral-50 text-neutral-900">
-        <header className="border-b border-black/5 bg-white">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-            <Link href="/" className="text-lg font-bold tracking-tight">
-              Mobility Brasil <span className="text-neutral-400">Blog</span>
-            </Link>
-            <nav className="text-sm text-neutral-600">
-              <Link href="/" className="hover:text-neutral-900">
-                Início
-              </Link>
-            </nav>
-          </div>
-        </header>
+        <Header />
 
         <main className="flex-1">{children}</main>
 

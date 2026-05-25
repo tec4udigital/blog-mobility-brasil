@@ -4,13 +4,25 @@
 :root {
   --background: #fafafa;
   --foreground: #171717;
+
+  /* Brand tokens — espelham o Figma (fase 1; o design system completo
+     entra na fase 2). */
+  --color-brand-black: #020205;
+  --color-brand-border: #e7e7e7;
+  --color-brand-surface: #f2f2f2;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-brand-black: var(--color-brand-black);
+  --color-brand-border: var(--color-brand-border);
+  --color-brand-surface: var(--color-brand-surface);
+  /* Body/UI: Lato (Google Fonts).
+     Display/brand: Helvetica Neue LT (arquivos locais em /public/fonts). */
+  --font-sans: var(--font-lato), system-ui, sans-serif;
+  --font-display: var(--font-helvetica), var(--font-lato), system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 body {

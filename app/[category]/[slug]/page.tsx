@@ -103,7 +103,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <>
             <span aria-hidden> / </span>
             <Link
-              href={`/?category=${post.categories.nodes[0].slug}`}
+              href={`/${post.categories.nodes[0].slug}`}
               className="hover:text-neutral-900"
             >
               {post.categories.nodes[0].name}

@@ -116,7 +116,7 @@ export function HeaderMobileMenu({ categories }: HeaderMobileMenuProps) {
                     <li key={category.databaseId}>
                       <div className="flex w-full items-center">
                         <Link
-                          href={`/?category=${slug}`}
+                          href={`/${slug}`}
                           onClick={close}
                           className="flex-1 px-5 py-2 text-base text-[color:var(--color-brand-black)]"
                         >
@@ -150,7 +150,7 @@ export function HeaderMobileMenu({ categories }: HeaderMobileMenuProps) {
                           {children.map((child) => (
                             <li key={child.databaseId}>
                               <Link
-                                href={`/?category=${child.slug}`}
+                                href={`/${child.slug}`}
                                 onClick={close}
                                 className="block px-9 py-2 text-sm text-[color:var(--color-brand-black)]"
                               >

@@ -3,24 +3,14 @@ import { PostCard } from "@/components/blog/PostCard";
 import { PostCardFeatured } from "@/components/blog/PostCardFeatured";
 import { getCategories } from "@/lib/graphql/queries/categories";
 import { getHighlightedPost, getPosts } from "@/lib/graphql/queries/posts";
-import type { PostListItem } from "@/types/wordpress";
 
 export const revalidate = 3600;
 
-interface HomePageProps {
-  searchParams: Promise<{ category?: string }>;
-}
-
-export default async function HomePage({ searchParams }: HomePageProps) {
-  const { category } = await searchParams;
-  const activeCategorySlug = category?.trim() || null;
-
+export default async function HomePage() {
   const [categories, posts, highlighted] = await Promise.all([
     getCategories(),
-    getPosts({ first: 12, categorySlug: activeCategorySlug }),
-    activeCategorySlug
-      ? Promise.resolve<PostListItem | null>(null)
-      : getHighlightedPost(),
+    getPosts({ first: 12 }),
+    getHighlightedPost(),
   ]);
 
   // Quando o destaque está no topo, removemos do grid para evitar duplicação.
@@ -58,20 +48,16 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             id="latest-heading"
             className="text-2xl font-bold text-neutral-900 sm:text-3xl"
           >
-            {activeCategorySlug ? "Categoria" : "Últimas publicações"}
+            Últimas publicações
           </h2>
           {categories.length > 0 && (
-            <CategoryFilter
-              categories={categories}
-              activeSlug={activeCategorySlug}
-            />
+            <CategoryFilter categories={categories} activeSlug={null} />
           )}
         </div>
 
         {gridPosts.length === 0 ? (
           <p className="rounded-xl border border-dashed border-neutral-300 bg-white p-10 text-center text-neutral-500">
-            Nenhum post encontrado
-            {activeCategorySlug ? ` em "${activeCategorySlug}"` : ""}.
+            Nenhum post encontrado.
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

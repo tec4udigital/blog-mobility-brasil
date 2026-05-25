@@ -48,7 +48,7 @@ export function PostCard({ post, priority = false }: PostCardProps) {
       <div className="flex flex-1 flex-col gap-3 p-5">
         {category && (
           <Link
-            href={`/?category=${category.slug}`}
+            href={`/${category.slug}`}
             className="text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-neutral-900"
           >
             {category.name}

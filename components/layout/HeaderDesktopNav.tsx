@@ -23,7 +23,7 @@ export function HeaderDesktopNav({ categories }: HeaderDesktopNavProps) {
       {categories.map((category) => {
         const children = category.children?.nodes ?? [];
         const hasChildren = children.length > 0;
-        const href = `/?category=${category.slug}`;
+        const href = `/${category.slug}`;
         const isOpen = openSlug === category.slug;
 
         return (
@@ -62,7 +62,7 @@ export function HeaderDesktopNav({ categories }: HeaderDesktopNavProps) {
                   {children.map((child) => (
                     <li key={child.databaseId}>
                       <Link
-                        href={`/?category=${child.slug}`}
+                        href={`/${child.slug}`}
                         className="block px-4 py-2 text-sm text-neutral-800 transition-colors hover:bg-neutral-100"
                       >
                         {child.name}

@@ -58,7 +58,7 @@ export function PostCardFeatured({ post }: PostCardFeaturedProps) {
             </span>
             {category && (
               <Link
-                href={`/?category=${category.slug}`}
+                href={`/${category.slug}`}
                 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-neutral-900"
               >
                 {category.name}

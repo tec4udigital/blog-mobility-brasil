@@ -1,0 +1,242 @@
+import { POST_LIST_FIELDS_FRAGMENT } from "@/lib/graphql/fragments/postFields";
+import { SEO_FRAGMENT } from "@/lib/graphql/fragments/seo";
+import { MOCK_POSTS } from "@/lib/mocks/posts";
+import { cacheTags, fetchGraphQL } from "@/lib/wordpress";
+import type {
+  GetAllPostSlugsResponse,
+  GetPostsResponse,
+  GetPostsVariables,
+  PostListItem,
+} from "@/types/wordpress";
+
+/**
+ * Listagem genérica de posts, com filtro opcional por categoria.
+ *
+ * O filtro por destaque (ACF `postHighlight`) é aplicado no consumidor
+ * (`getPosts`/`getHighlightedPost`) — assim evitamos dependência da
+ * extensão WPGraphQL Meta Query.
+ */
+export const POSTS_QUERY = /* GraphQL */ `
+  ${POST_LIST_FIELDS_FRAGMENT}
+  ${SEO_FRAGMENT}
+  query GetPosts($first: Int = 12, $after: String, $categorySlug: String) {
+    posts(
+      first: $first
+      after: $after
+      where: {
+        status: PUBLISH
+        orderby: { field: DATE, order: DESC }
+        categoryName: $categorySlug
+      }
+    ) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      nodes {
+        ...PostListFields
+        seo {
+          ...SeoFields
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * Query reduzida (sem ACF/Yoast) — fallback enquanto o WordPress não
+ * estiver totalmente configurado. Remover quando o schema estiver pronto.
+ */
+const POSTS_BASIC_QUERY = /* GraphQL */ `
+  query GetPostsBasic(
+    $first: Int = 12
+    $after: String
+    $categorySlug: String
+  ) {
+    posts(
+      first: $first
+      after: $after
+      where: {
+        status: PUBLISH
+        orderby: { field: DATE, order: DESC }
+        categoryName: $categorySlug
+      }
+    ) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      nodes {
+        databaseId
+        id
+        slug
+        uri
+        title
+        excerpt
+        date
+        modified
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
+          }
+        }
+        author {
+          node {
+            databaseId
+            name
+            slug
+            description
+            avatar {
+              url
+            }
+          }
+        }
+        categories(first: 10) {
+          nodes {
+            databaseId
+            name
+            slug
+            count
+            description
+          }
+        }
+        tags(first: 10) {
+          nodes {
+            databaseId
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+`;
+
+interface BasicPostsResponse {
+  posts: {
+    nodes: Array<Omit<PostListItem, "postFields" | "seo">>;
+  } | null;
+}
+
+export async function getPosts(
+  variables: GetPostsVariables = {},
+): Promise<PostListItem[]> {
+  const tags: string[] = [cacheTags.posts];
+  if (variables.categorySlug) tags.push(cacheTags.category(variables.categorySlug));
+
+  const queryVariables = {
+    first: variables.first ?? 12,
+    after: variables.after ?? null,
+    categorySlug: variables.categorySlug ?? null,
+  };
+
+  let nodes: PostListItem[] | null = null;
+
+  try {
+    const data = await fetchGraphQL<GetPostsResponse, GetPostsVariables>(
+      POSTS_QUERY,
+      queryVariables,
+      { tags, operationName: "GetPosts" },
+    );
+    nodes = data.posts?.nodes ?? [];
+  } catch (error) {
+    console.warn(
+      "[wordpress] getPosts com ACF/Yoast falhou, tentando query básica.",
+      error instanceof Error ? error.message : error,
+    );
+  }
+
+  if (!nodes || nodes.length === 0) {
+    try {
+      const basic = await fetchGraphQL<BasicPostsResponse, GetPostsVariables>(
+        POSTS_BASIC_QUERY,
+        queryVariables,
+        { tags, operationName: "GetPostsBasic" },
+      );
+      const basicNodes = basic.posts?.nodes ?? [];
+      nodes = basicNodes.map((n) => ({ ...n, postFields: null, seo: null }));
+    } catch (error) {
+      console.warn(
+        "[wordpress] getPosts básica falhou, caindo para MOCK_POSTS.",
+        error instanceof Error ? error.message : error,
+      );
+      nodes = MOCK_POSTS;
+    }
+  }
+
+  if (variables.categorySlug) {
+    nodes = nodes.filter((p) =>
+      p.categories?.nodes.some((c) => c.slug === variables.categorySlug),
+    );
+  }
+
+  if (variables.highlightedOnly) {
+    return nodes.filter((p) => p.postFields?.postHighlight === true);
+  }
+  return nodes;
+}
+
+/**
+ * Retorna o post em destaque mais recente. Se nenhum estiver marcado como
+ * highlight, devolve `null` (a UI pode então usar o primeiro post comum).
+ */
+export async function getHighlightedPost(): Promise<PostListItem | null> {
+  const highlighted = await getPosts({ first: 6, highlightedOnly: true });
+  return highlighted[0] ?? null;
+}
+
+/**
+ * Lista compacta de slugs + categoria — usada por `generateStaticParams`
+ * em `app/[category]/[slug]/page.tsx`.
+ */
+export const ALL_POST_SLUGS_QUERY = /* GraphQL */ `
+  query GetAllPostSlugs($first: Int = 100) {
+    posts(first: $first, where: { status: PUBLISH }) {
+      nodes {
+        slug
+        categories(first: 1) {
+          nodes {
+            slug
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getAllPostSlugs(): Promise<
+  Array<{ slug: string; category: string }>
+> {
+  try {
+    const data = await fetchGraphQL<GetAllPostSlugsResponse>(
+      ALL_POST_SLUGS_QUERY,
+      undefined,
+      { tags: [cacheTags.posts], operationName: "GetAllPostSlugs" },
+    );
+
+    return (data.posts?.nodes ?? [])
+      .map((node) => {
+        const category = node.categories?.nodes[0]?.slug ?? "sem-categoria";
+        return { slug: node.slug, category };
+      })
+      .filter((p) => p.slug);
+  } catch (error) {
+    console.warn(
+      "[wordpress] getAllPostSlugs falhou, usando MOCK_POSTS para generateStaticParams.",
+      error instanceof Error ? error.message : error,
+    );
+    return MOCK_POSTS.map((p) => ({
+      slug: p.slug,
+      category: p.categories?.nodes[0]?.slug ?? "sem-categoria",
+    }));
+  }
+}

@@ -1,11 +1,11 @@
 # Graph Report - .  (2026-05-26)
 
 ## Corpus Check
-- 37 files · ~12,166 words
+- 37 files · ~12,545 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 126 nodes · 94 edges · 42 communities detected
+- 130 nodes · 98 edges · 43 communities detected
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.7)
 - Token cost: 0 input · 0 output
 
@@ -52,6 +52,7 @@
 - [[_COMMUNITY_Community 39|Community 39]]
 - [[_COMMUNITY_Community 40|Community 40]]
 - [[_COMMUNITY_Community 41|Community 41]]
+- [[_COMMUNITY_Community 42|Community 42]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `Blog Mobility Brasil` - 6 edges
@@ -87,12 +88,12 @@
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.13
-Nodes (18): ACF Field Addition Workflow, ACF PRO, Cache Tags Convention, Client Component Minimization Rationale, Client Components, fetchGraphQL, generateMetadata, lib/graphql/fragments/ (+10 more)
+Cohesion: 0.16
+Nodes (15): ACF Field Addition Workflow, ACF PRO, Cache Tags Convention, fetchGraphQL, generateMetadata, lib/graphql/fragments/, lib/graphql/queries/, ISR (Incremental Static Regeneration) (+7 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.14
-Nodes (12): app/globals.css, App Router, Blog Mobility Brasil, Geist Font, generateStaticParams, Next.js 16, Next.js Breaking Changes Warning, Pending: Figma Design System (+4 more)
+Cohesion: 0.17
+Nodes (10): app/globals.css, Blog Mobility Brasil, Geist Font, Next.js 16, Next.js Breaking Changes Warning, Pending: Figma Design System, React 19, Tailwind CSS v4 (+2 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.18
@@ -103,36 +104,36 @@ Cohesion: 0.6
 Nodes (4): findCategoryBySlug(), flattenCategories(), generateMetadata(), generateStaticParams()
 
 ### Community 4 - "Community 4"
-Cohesion: 0.5
-Nodes (1): WordPressGraphQLError
+Cohesion: 0.4
+Nodes (0): 
 
 ### Community 5 - "Community 5"
-Cohesion: 0.5
-Nodes (0): 
+Cohesion: 0.4
+Nodes (5): App Router, Client Component Minimization Rationale, Client Components, generateStaticParams, Server Components
 
 ### Community 6 - "Community 6"
 Cohesion: 0.5
-Nodes (0): 
+Nodes (1): WordPressGraphQLError
 
 ### Community 7 - "Community 7"
-Cohesion: 0.67
+Cohesion: 0.5
 Nodes (0): 
 
 ### Community 8 - "Community 8"
-Cohesion: 0.67
+Cohesion: 0.5
 Nodes (0): 
 
 ### Community 9 - "Community 9"
-Cohesion: 1.0
-Nodes (2): PostContent(), sanitizeHtml()
+Cohesion: 0.67
+Nodes (0): 
 
 ### Community 10 - "Community 10"
 Cohesion: 0.67
 Nodes (0): 
 
 ### Community 11 - "Community 11"
-Cohesion: 0.67
-Nodes (0): 
+Cohesion: 1.0
+Nodes (2): PostContent(), sanitizeHtml()
 
 ### Community 12 - "Community 12"
 Cohesion: 0.67
@@ -140,15 +141,15 @@ Nodes (0):
 
 ### Community 13 - "Community 13"
 Cohesion: 0.67
-Nodes (3): File/Document Icon (file.svg), Globe/World Icon (globe.svg), Browser Window Icon (window.svg)
+Nodes (0): 
 
 ### Community 14 - "Community 14"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0): 
 
 ### Community 15 - "Community 15"
-Cohesion: 1.0
-Nodes (0): 
+Cohesion: 0.67
+Nodes (3): File/Document Icon (file.svg), Globe/World Icon (globe.svg), Browser Window Icon (window.svg)
 
 ### Community 16 - "Community 16"
 Cohesion: 1.0
@@ -200,19 +201,19 @@ Nodes (0):
 
 ### Community 28 - "Community 28"
 Cohesion: 1.0
-Nodes (2): Next.js Wordmark Logo (next.svg), Vercel Triangle Logo (vercel.svg)
+Nodes (0): 
 
 ### Community 29 - "Community 29"
 Cohesion: 1.0
-Nodes (2): Header Component, Mobility Brasil White Logo (logo-mobility-white.svg)
+Nodes (0): 
 
 ### Community 30 - "Community 30"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (2): Header Component, Mobility Brasil White Logo (logo-mobility-white.svg)
 
 ### Community 31 - "Community 31"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (2): Next.js Wordmark Logo (next.svg), Vercel Triangle Logo (vercel.svg)
 
 ### Community 32 - "Community 32"
 Cohesion: 1.0
@@ -244,86 +245,86 @@ Nodes (0):
 
 ### Community 39 - "Community 39"
 Cohesion: 1.0
-Nodes (1): next/image
+Nodes (0): 
 
 ### Community 40 - "Community 40"
 Cohesion: 1.0
-Nodes (1): Naming Conventions
+Nodes (1): next/image
 
 ### Community 41 - "Community 41"
+Cohesion: 1.0
+Nodes (1): Naming Conventions
+
+### Community 42 - "Community 42"
 Cohesion: 1.0
 Nodes (1): Request Data Flow
 
 ## Knowledge Gaps
 - **22 isolated node(s):** `Header Component`, `React 19`, `TypeScript Strict`, `ACF PRO`, `Vercel Hosting` (+17 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 14`** (2 nodes): `parseGallery.ts`, `parseGalleryFromContent()`
+- **Thin community `Community 16`** (2 nodes): `page.tsx`, `HomePage()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 15`** (2 nodes): `post.ts`, `getPostBySlug()`
+- **Thin community `Community 17`** (2 nodes): `parseGallery.ts`, `parseGalleryFromContent()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 16`** (2 nodes): `getCategories()`, `categories.ts`
+- **Thin community `Community 18`** (2 nodes): `post.ts`, `getPostBySlug()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 17`** (2 nodes): `pages.ts`, `getPageByUri()`
+- **Thin community `Community 19`** (2 nodes): `getCategories()`, `categories.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 18`** (2 nodes): `posts.ts`, `baseListItem()`
+- **Thin community `Community 20`** (2 nodes): `pages.ts`, `getPageByUri()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 19`** (2 nodes): `PostCTA.tsx`, `PostCTA()`
+- **Thin community `Community 21`** (2 nodes): `posts.ts`, `baseListItem()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 20`** (2 nodes): `CategoryFilter()`, `CategoryFilter.tsx`
+- **Thin community `Community 22`** (2 nodes): `PostCTA.tsx`, `PostCTA()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 21`** (2 nodes): `PostCard.tsx`, `buildPostHref()`
+- **Thin community `Community 23`** (2 nodes): `CategoryFilter()`, `CategoryFilter.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 22`** (2 nodes): `PostCardFeatured.tsx`, `buildPostHref()`
+- **Thin community `Community 24`** (2 nodes): `PostCard.tsx`, `buildPostHref()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 23`** (2 nodes): `BlogHero()`, `BlogHero.tsx`
+- **Thin community `Community 25`** (2 nodes): `BlogHero()`, `BlogHero.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 24`** (2 nodes): `NewsletterCard.tsx`, `NewsletterCard()`
+- **Thin community `Community 26`** (2 nodes): `NewsletterCard.tsx`, `NewsletterCard()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 25`** (2 nodes): `SecondaryNewsCard.tsx`, `buildPostHref()`
+- **Thin community `Community 27`** (2 nodes): `SecondaryNewsCard.tsx`, `buildPostHref()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 26`** (2 nodes): `LatestNews.tsx`, `buildPostHref()`
+- **Thin community `Community 28`** (2 nodes): `LatestNews.tsx`, `buildPostHref()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 27`** (2 nodes): `CategoryShowcase()`, `CategoryShowcase.tsx`
+- **Thin community `Community 29`** (2 nodes): `CategoryShowcase()`, `CategoryShowcase.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 28`** (2 nodes): `Next.js Wordmark Logo (next.svg)`, `Vercel Triangle Logo (vercel.svg)`
+- **Thin community `Community 30`** (2 nodes): `Header Component`, `Mobility Brasil White Logo (logo-mobility-white.svg)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 29`** (2 nodes): `Header Component`, `Mobility Brasil White Logo (logo-mobility-white.svg)`
+- **Thin community `Community 31`** (2 nodes): `Next.js Wordmark Logo (next.svg)`, `Vercel Triangle Logo (vercel.svg)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 30`** (1 nodes): `next-env.d.ts`
+- **Thin community `Community 32`** (1 nodes): `next-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 31`** (1 nodes): `next.config.ts`
+- **Thin community `Community 33`** (1 nodes): `next.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 32`** (1 nodes): `page.tsx`
+- **Thin community `Community 34`** (1 nodes): `wordpress.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 33`** (1 nodes): `wordpress.ts`
+- **Thin community `Community 35`** (1 nodes): `site.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 34`** (1 nodes): `site.ts`
+- **Thin community `Community 36`** (1 nodes): `seo.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 35`** (1 nodes): `seo.ts`
+- **Thin community `Community 37`** (1 nodes): `postFields.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 36`** (1 nodes): `postFields.ts`
+- **Thin community `Community 38`** (1 nodes): `componentsHome.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 37`** (1 nodes): `componentsHome.ts`
+- **Thin community `Community 39`** (1 nodes): `HeaderDesktopNav.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 38`** (1 nodes): `HeaderDesktopNav.tsx`
+- **Thin community `Community 40`** (1 nodes): `next/image`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 39`** (1 nodes): `next/image`
+- **Thin community `Community 41`** (1 nodes): `Naming Conventions`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 40`** (1 nodes): `Naming Conventions`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 41`** (1 nodes): `Request Data Flow`
+- **Thin community `Community 42`** (1 nodes): `Request Data Flow`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Blog Mobility Brasil` connect `Community 1` to `Community 0`?**
-  _High betweenness centrality (0.033) - this node is a cross-community bridge._
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **Why does `WordPress Headless CMS` connect `Community 0` to `Community 1`?**
-  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `Next.js 16` connect `Community 1` to `Community 5`?**
+  _High betweenness centrality (0.016) - this node is a cross-community bridge._
 - **What connects `Header Component`, `React 19`, `TypeScript Strict` to the rest of the system?**
   _22 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.13 - nodes in this community are weakly interconnected._
-- **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.14 - nodes in this community are weakly interconnected._

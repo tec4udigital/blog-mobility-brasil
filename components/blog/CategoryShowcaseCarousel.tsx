@@ -6,103 +6,167 @@ import { useEffect, useRef, useState } from "react";
 import { AngleLeftIcon, AngleRightIcon } from "@/components/layout/icons";
 
 export interface CategoryShowcaseItem {
+  title: string;
   src: string;
   alt: string;
-  title: string;
   href: string | null;
+  buttonLabel: string;
 }
 
 interface CategoryShowcaseCarouselProps {
   items: CategoryShowcaseItem[];
 }
 
+const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
+const DESKTOP_CARDS_PER_VIEW = 4;
+const DESKTOP_GAP_PX = 32;
+const DESKTOP_CARD_PERCENT = 100 / DESKTOP_CARDS_PER_VIEW;
+
 export function CategoryShowcaseCarousel({
   items,
 }: CategoryShowcaseCarouselProps) {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const mobileScrollerRef = useRef<HTMLDivElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [page, setPage] = useState(0);
 
-  function goTo(index: number) {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-    const clamped = Math.max(0, Math.min(index, items.length - 1));
-    const slide = scroller.children[clamped] as HTMLElement | undefined;
-    if (!slide) return;
-    scroller.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
-  }
+  const cardsPerView = isDesktop ? DESKTOP_CARDS_PER_VIEW : 1;
+  const pageCount = Math.max(1, Math.ceil(items.length / cardsPerView));
+  const maxPage = pageCount - 1;
+  const currentPage = Math.min(page, maxPage);
+  const maxSlideOffset = Math.max(0, items.length - cardsPerView);
+  const slideOffset = Math.min(currentPage * cardsPerView, maxSlideOffset);
 
   useEffect(() => {
-    const scroller = scrollerRef.current;
+    const mql = window.matchMedia(DESKTOP_MEDIA_QUERY);
+    function handle() {
+      setIsDesktop(mql.matches);
+      setPage(0);
+      const scroller = mobileScrollerRef.current;
+      if (scroller) scroller.scrollLeft = 0;
+    }
+    handle();
+    mql.addEventListener("change", handle);
+    return () => mql.removeEventListener("change", handle);
+  }, []);
+
+  // Mobile only: keep `page` in sync com a posição do scroll nativo.
+  useEffect(() => {
+    if (isDesktop) return;
+    const scroller = mobileScrollerRef.current;
     if (!scroller) return;
+    const track = scroller.firstElementChild as HTMLElement | null;
+    if (!track) return;
 
     function handleScroll() {
-      if (!scroller) return;
-      const children = Array.from(scroller.children) as HTMLElement[];
-      if (children.length === 0) return;
-      const scrollLeft = scroller.scrollLeft;
+      if (!scroller || !track) return;
+      const children = Array.from(track.children) as HTMLElement[];
+      const left = scroller.scrollLeft;
       let closest = 0;
-      let minDelta = Infinity;
+      let min = Infinity;
       children.forEach((child, idx) => {
-        const delta = Math.abs(child.offsetLeft - scrollLeft);
-        if (delta < minDelta) {
-          minDelta = delta;
+        const d = Math.abs(child.offsetLeft - left);
+        if (d < min) {
+          min = d;
           closest = idx;
         }
       });
-      setActiveIndex(closest);
+      setPage(closest);
     }
 
     scroller.addEventListener("scroll", handleScroll, { passive: true });
     return () => scroller.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isDesktop]);
+
+  function goToPage(nextPage: number) {
+    const clamped = Math.max(0, Math.min(nextPage, maxPage));
+    setPage(clamped);
+    if (isDesktop) return;
+    const scroller = mobileScrollerRef.current;
+    const track = scroller?.firstElementChild as HTMLElement | null;
+    const slide = track?.children[clamped] as HTMLElement | undefined;
+    if (!scroller || !slide) return;
+    scroller.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
+  }
 
   if (items.length === 0) return null;
 
+  const desktopTransform = `translateX(calc(-${slideOffset * DESKTOP_CARD_PERCENT}% - ${slideOffset * DESKTOP_GAP_PX}px))`;
+
   return (
     <div className="flex flex-col gap-8">
+      {/* Mobile: scroll-snap nativo, 1 card por vez */}
       <div
-        ref={scrollerRef}
-        className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto sm:gap-6 lg:gap-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        ref={mobileScrollerRef}
+        className="overflow-x-auto snap-x snap-mandatory scrollbar-none lg:hidden [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         aria-roledescription="carousel"
       >
-        {items.map((item, index) => (
-          <div
-            key={`${item.title}-${index}`}
-            className="w-[260px] shrink-0 snap-start sm:w-[calc(50%-12px)] lg:w-[calc(25%-24px)]"
-            aria-roledescription="slide"
-            aria-label={`${index + 1} de ${items.length}`}
-          >
-            <CategoryCard item={item} />
-          </div>
-        ))}
+        <div className="flex w-full">
+          {items.map((item, index) => (
+            <div
+              key={`m-${item.title}-${index}`}
+              className="w-full shrink-0 snap-start"
+              aria-roledescription="slide"
+              aria-label={`${index + 1} de ${items.length}`}
+            >
+              <CategoryCard item={item} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop: track controlada via transform, 4 cards por página */}
+      <div
+        className="hidden overflow-hidden lg:block"
+        aria-roledescription="carousel"
+      >
+        <div
+          className="flex transition-transform duration-300 ease-out"
+          style={{ transform: desktopTransform, gap: `${DESKTOP_GAP_PX}px` }}
+        >
+          {items.map((item, index) => {
+            const inView =
+              index >= slideOffset && index < slideOffset + cardsPerView;
+            return (
+              <div
+                key={`d-${item.title}-${index}`}
+                className="w-[calc(25%-24px)] shrink-0"
+                aria-roledescription="slide"
+                aria-label={`${index + 1} de ${items.length}`}
+                aria-hidden={!inView}
+              >
+                <CategoryCard item={item} />
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="flex items-center justify-center gap-4">
         <button
           type="button"
-          onClick={() => goTo(activeIndex - 1)}
-          disabled={activeIndex === 0}
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 0}
           aria-label="Slide anterior"
-          className="flex size-9 items-center justify-center rounded-full bg-[#f1f1f1] text-[#373435] disabled:opacity-40"
+          className="flex size-9 items-center cursor-pointer justify-center rounded-full bg-[#f1f1f1] text-[#373435] disabled:opacity-40"
         >
           <AngleLeftIcon className="size-5" />
         </button>
 
         <div className="flex items-center gap-2" role="tablist">
-          {items.map((item, index) => {
-            const isActive = index === activeIndex;
+          {Array.from({ length: pageCount }).map((_, index) => {
+            const isActive = index === currentPage;
             return (
               <button
-                key={`dot-${item.title}-${index}`}
+                key={`dot-${index}`}
                 type="button"
                 role="tab"
                 aria-selected={isActive}
-                aria-label={`Ir para ${item.title}`}
-                onClick={() => goTo(index)}
+                aria-label={`Ir para página ${index + 1}`}
+                onClick={() => goToPage(index)}
                 className={
                   isActive
                     ? "h-2 w-8 rounded-full bg-black transition-all"
-                    : "size-2 rounded-full bg-[#d4d4d4] transition-all"
+                    : "size-2 cursor-pointer rounded-full bg-[#d4d4d4] transition-all"
                 }
               />
             );
@@ -111,10 +175,10 @@ export function CategoryShowcaseCarousel({
 
         <button
           type="button"
-          onClick={() => goTo(activeIndex + 1)}
-          disabled={activeIndex === items.length - 1}
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage >= maxPage}
           aria-label="Próximo slide"
-          className="flex size-9 items-center justify-center rounded-full bg-[#f1f1f1] text-[#373435] disabled:opacity-40"
+          className="flex size-9 cursor-pointer items-center justify-center rounded-full bg-[#f1f1f1] text-[#373435] disabled:opacity-40"
         >
           <AngleRightIcon className="size-5" />
         </button>
@@ -125,18 +189,18 @@ export function CategoryShowcaseCarousel({
 
 function CategoryCard({ item }: { item: CategoryShowcaseItem }) {
   const card = (
-    <article className="flex h-[353px] flex-col items-center justify-between rounded-[8px] border border-[rgba(187,187,187,0.3)] bg-[#f5f5f7] px-6 pb-5 pt-6 text-center">
+    <article className="flex h-[353px] flex-col items-center rounded-[8px] border border-[rgba(187,187,187,0.3)] bg-[#f5f5f7] px-6 pb-5 pt-6 text-center">
       <h3 className="font-display text-[16px] font-medium leading-[1.2] text-black">
         {item.title}
       </h3>
 
-      <div className="relative h-[218px] w-[245px] max-w-full">
+      <div className="relative mt-[14px] h-[218px] w-[245px] max-w-full">
         {item.src ? (
           <Image
             src={item.src}
             alt={item.alt || item.title}
             fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 297px, (min-width: 640px) 50vw, 260px"
             className="object-contain"
           />
         ) : (
@@ -144,8 +208,8 @@ function CategoryCard({ item }: { item: CategoryShowcaseItem }) {
         )}
       </div>
 
-      <span className="inline-flex items-center gap-2 rounded-[4px] border border-black bg-black px-3.5 py-2 text-[16px] font-medium text-white">
-        Explorar
+      <span className="mt-[18px] inline-flex items-center gap-2 rounded-[4px] border border-black bg-black px-3.5 py-2 font-display text-[16px] font-medium text-white">
+        {item.buttonLabel}
         <AngleRightIcon className="size-4" />
       </span>
     </article>

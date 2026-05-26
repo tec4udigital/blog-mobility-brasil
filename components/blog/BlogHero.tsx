@@ -15,7 +15,7 @@ export function BlogHero({ categories }: BlogHeroProps) {
   return (
     <section className="-mx-1.5 flex flex-col gap-[34px] sm:mx-0 sm:gap-4">
       <div className="flex flex-col gap-[34px] sm:gap-5">
-        <span className="inline-flex w-fit items-center gap-1 rounded-[4px] bg-black/[0.06] px-3 py-1.5 text-[12px] leading-4 text-[#373435] sm:px-4 sm:py-2 sm:text-[16px]">
+        <span className="inline-flex w-fit items-center gap-1 rounded-[4px] bg-black/6 px-3 py-1.5 text-[12px] leading-4 text-[#373435] sm:px-4 sm:py-2 sm:text-[16px]">
           <MessageCaptionsIcon className="size-3 sm:size-4" />
           Blog &amp; Artigos
         </span>

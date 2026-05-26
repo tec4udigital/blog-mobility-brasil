@@ -13,8 +13,7 @@ import type {
  * Listagem genérica de posts, com filtro opcional por categoria.
  *
  * O filtro por destaque (ACF `postHighlight`) é aplicado no consumidor
- * (`getPosts`/`getHighlightedPost`) — assim evitamos dependência da
- * extensão WPGraphQL Meta Query.
+ * em memória — assim evitamos dependência da extensão WPGraphQL Meta Query.
  */
 export const POSTS_QUERY = /* GraphQL */ `
   ${POST_LIST_FIELDS_FRAGMENT}
@@ -183,15 +182,6 @@ export async function getPosts(
     return nodes.filter((p) => p.postFields?.postHighlight === true);
   }
   return nodes;
-}
-
-/**
- * Retorna o post em destaque mais recente. Se nenhum estiver marcado como
- * highlight, devolve `null` (a UI pode então usar o primeiro post comum).
- */
-export async function getHighlightedPost(): Promise<PostListItem | null> {
-  const highlighted = await getPosts({ first: 6, highlightedOnly: true });
-  return highlighted[0] ?? null;
 }
 
 /**

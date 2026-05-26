@@ -185,7 +185,7 @@
       "source_file": "lib/wordpress.ts",
       "source_location": "L1",
       "id": "lib_wordpress_ts",
-      "community": 5,
+      "community": 4,
       "norm_label": "wordpress.ts"
     },
     {
@@ -194,7 +194,7 @@
       "source_file": "lib/wordpress.ts",
       "source_location": "L29",
       "id": "wordpress_wordpressgraphqlerror",
-      "community": 5,
+      "community": 4,
       "norm_label": "wordpressgraphqlerror"
     },
     {
@@ -203,7 +203,7 @@
       "source_file": "lib/wordpress.ts",
       "source_location": "L33",
       "id": "wordpress_wordpressgraphqlerror_constructor",
-      "community": 5,
+      "community": 4,
       "norm_label": ".constructor()"
     },
     {
@@ -212,7 +212,7 @@
       "source_file": "lib/wordpress.ts",
       "source_location": "L66",
       "id": "wordpress_fetchgraphql",
-      "community": 5,
+      "community": 4,
       "norm_label": "fetchgraphql()"
     },
     {
@@ -221,7 +221,7 @@
       "source_file": "lib/format.ts",
       "source_location": "L1",
       "id": "lib_format_ts",
-      "community": 6,
+      "community": 5,
       "norm_label": "format.ts"
     },
     {
@@ -230,7 +230,7 @@
       "source_file": "lib/format.ts",
       "source_location": "L12",
       "id": "format_formatdate",
-      "community": 6,
+      "community": 5,
       "norm_label": "formatdate()"
     },
     {
@@ -239,7 +239,7 @@
       "source_file": "lib/format.ts",
       "source_location": "L22",
       "id": "format_striphtml",
-      "community": 6,
+      "community": 5,
       "norm_label": "striphtml()"
     },
     {
@@ -248,7 +248,7 @@
       "source_file": "lib/format.ts",
       "source_location": "L39",
       "id": "format_safecolor",
-      "community": 6,
+      "community": 5,
       "norm_label": "safecolor()"
     },
     {
@@ -266,7 +266,7 @@
       "source_file": "lib/parseGallery.ts",
       "source_location": "L1",
       "id": "lib_parsegallery_ts",
-      "community": 15,
+      "community": 14,
       "norm_label": "parsegallery.ts"
     },
     {
@@ -275,8 +275,35 @@
       "source_file": "lib/parseGallery.ts",
       "source_location": "L28",
       "id": "parsegallery_parsegalleryfromcontent",
-      "community": 15,
+      "community": 14,
       "norm_label": "parsegalleryfromcontent()"
+    },
+    {
+      "label": "parseCategoryShowcase.ts",
+      "file_type": "code",
+      "source_file": "lib/parseCategoryShowcase.ts",
+      "source_location": "L1",
+      "id": "lib_parsecategoryshowcase_ts",
+      "community": 7,
+      "norm_label": "parsecategoryshowcase.ts"
+    },
+    {
+      "label": "stripTags()",
+      "file_type": "code",
+      "source_file": "lib/parseCategoryShowcase.ts",
+      "source_location": "L39",
+      "id": "parsecategoryshowcase_striptags",
+      "community": 7,
+      "norm_label": "striptags()"
+    },
+    {
+      "label": "parseCategoryShowcaseFromContent()",
+      "file_type": "code",
+      "source_file": "lib/parseCategoryShowcase.ts",
+      "source_location": "L43",
+      "id": "parsecategoryshowcase_parsecategoryshowcasefromcontent",
+      "community": 7,
+      "norm_label": "parsecategoryshowcasefromcontent()"
     },
     {
       "label": "seo.ts",
@@ -302,7 +329,7 @@
       "source_file": "lib/graphql/queries/post.ts",
       "source_location": "L1",
       "id": "lib_graphql_queries_post_ts",
-      "community": 16,
+      "community": 15,
       "norm_label": "post.ts"
     },
     {
@@ -311,44 +338,8 @@
       "source_file": "lib/graphql/queries/post.ts",
       "source_location": "L91",
       "id": "post_getpostbyslug",
-      "community": 16,
+      "community": 15,
       "norm_label": "getpostbyslug()"
-    },
-    {
-      "label": "posts.ts",
-      "file_type": "code",
-      "source_file": "lib/graphql/queries/posts.ts",
-      "source_location": "L1",
-      "id": "lib_graphql_queries_posts_ts",
-      "community": 7,
-      "norm_label": "posts.ts"
-    },
-    {
-      "label": "getPosts()",
-      "file_type": "code",
-      "source_file": "lib/graphql/queries/posts.ts",
-      "source_location": "L130",
-      "id": "posts_getposts",
-      "community": 7,
-      "norm_label": "getposts()"
-    },
-    {
-      "label": "getHighlightedPost()",
-      "file_type": "code",
-      "source_file": "lib/graphql/queries/posts.ts",
-      "source_location": "L192",
-      "id": "posts_gethighlightedpost",
-      "community": 7,
-      "norm_label": "gethighlightedpost()"
-    },
-    {
-      "label": "getAllPostSlugs()",
-      "file_type": "code",
-      "source_file": "lib/graphql/queries/posts.ts",
-      "source_location": "L216",
-      "id": "posts_getallpostslugs",
-      "community": 7,
-      "norm_label": "getallpostslugs()"
     },
     {
       "label": "categories.ts",
@@ -356,7 +347,7 @@
       "source_file": "lib/graphql/queries/categories.ts",
       "source_location": "L1",
       "id": "lib_graphql_queries_categories_ts",
-      "community": 17,
+      "community": 16,
       "norm_label": "categories.ts"
     },
     {
@@ -365,7 +356,7 @@
       "source_file": "lib/graphql/queries/categories.ts",
       "source_location": "L39",
       "id": "categories_getcategories",
-      "community": 17,
+      "community": 16,
       "norm_label": "getcategories()"
     },
     {
@@ -374,7 +365,7 @@
       "source_file": "lib/graphql/queries/pages.ts",
       "source_location": "L1",
       "id": "lib_graphql_queries_pages_ts",
-      "community": 18,
+      "community": 17,
       "norm_label": "pages.ts"
     },
     {
@@ -383,8 +374,35 @@
       "source_file": "lib/graphql/queries/pages.ts",
       "source_location": "L27",
       "id": "pages_getpagebyuri",
-      "community": 18,
+      "community": 17,
       "norm_label": "getpagebyuri()"
+    },
+    {
+      "label": "posts.ts",
+      "file_type": "code",
+      "source_file": "lib/graphql/queries/posts.ts",
+      "source_location": "L1",
+      "id": "lib_graphql_queries_posts_ts",
+      "community": 8,
+      "norm_label": "posts.ts"
+    },
+    {
+      "label": "getPosts()",
+      "file_type": "code",
+      "source_file": "lib/graphql/queries/posts.ts",
+      "source_location": "L129",
+      "id": "posts_getposts",
+      "community": 8,
+      "norm_label": "getposts()"
+    },
+    {
+      "label": "getAllPostSlugs()",
+      "file_type": "code",
+      "source_file": "lib/graphql/queries/posts.ts",
+      "source_location": "L206",
+      "id": "posts_getallpostslugs",
+      "community": 8,
+      "norm_label": "getallpostslugs()"
     },
     {
       "label": "posts.ts",
@@ -392,7 +410,7 @@
       "source_file": "lib/mocks/posts.ts",
       "source_location": "L1",
       "id": "lib_mocks_posts_ts",
-      "community": 19,
+      "community": 18,
       "norm_label": "posts.ts"
     },
     {
@@ -401,7 +419,7 @@
       "source_file": "lib/mocks/posts.ts",
       "source_location": "L67",
       "id": "posts_baselistitem",
-      "community": 19,
+      "community": 18,
       "norm_label": "baselistitem()"
     },
     {
@@ -419,7 +437,7 @@
       "source_file": "components/blog/PostCTA.tsx",
       "source_location": "L1",
       "id": "components_blog_postcta_tsx",
-      "community": 20,
+      "community": 19,
       "norm_label": "postcta.tsx"
     },
     {
@@ -428,7 +446,7 @@
       "source_file": "components/blog/PostCTA.tsx",
       "source_location": "L21",
       "id": "postcta_postcta",
-      "community": 20,
+      "community": 19,
       "norm_label": "postcta()"
     },
     {
@@ -464,7 +482,7 @@
       "source_file": "components/blog/CategoryFilter.tsx",
       "source_location": "L1",
       "id": "components_blog_categoryfilter_tsx",
-      "community": 21,
+      "community": 20,
       "norm_label": "categoryfilter.tsx"
     },
     {
@@ -473,7 +491,7 @@
       "source_file": "components/blog/CategoryFilter.tsx",
       "source_location": "L15",
       "id": "categoryfilter_categoryfilter",
-      "community": 21,
+      "community": 20,
       "norm_label": "categoryfilter()"
     },
     {
@@ -482,7 +500,7 @@
       "source_file": "components/blog/PostCard.tsx",
       "source_location": "L1",
       "id": "components_blog_postcard_tsx",
-      "community": 22,
+      "community": 21,
       "norm_label": "postcard.tsx"
     },
     {
@@ -491,7 +509,7 @@
       "source_file": "components/blog/PostCard.tsx",
       "source_location": "L12",
       "id": "postcard_buildposthref",
-      "community": 22,
+      "community": 21,
       "norm_label": "buildposthref()"
     },
     {
@@ -500,7 +518,7 @@
       "source_file": "components/blog/PostCardFeatured.tsx",
       "source_location": "L1",
       "id": "components_blog_postcardfeatured_tsx",
-      "community": 23,
+      "community": 22,
       "norm_label": "postcardfeatured.tsx"
     },
     {
@@ -509,7 +527,7 @@
       "source_file": "components/blog/PostCardFeatured.tsx",
       "source_location": "L10",
       "id": "postcardfeatured_buildposthref",
-      "community": 23,
+      "community": 22,
       "norm_label": "buildposthref()"
     },
     {
@@ -545,7 +563,7 @@
       "source_file": "components/blog/BlogHero.tsx",
       "source_location": "L1",
       "id": "components_blog_bloghero_tsx",
-      "community": 24,
+      "community": 23,
       "norm_label": "bloghero.tsx"
     },
     {
@@ -554,7 +572,7 @@
       "source_file": "components/blog/BlogHero.tsx",
       "source_location": "L14",
       "id": "bloghero_bloghero",
-      "community": 24,
+      "community": 23,
       "norm_label": "bloghero()"
     },
     {
@@ -563,7 +581,7 @@
       "source_file": "components/blog/NewsletterCard.tsx",
       "source_location": "L1",
       "id": "components_blog_newslettercard_tsx",
-      "community": 25,
+      "community": 24,
       "norm_label": "newslettercard.tsx"
     },
     {
@@ -572,7 +590,7 @@
       "source_file": "components/blog/NewsletterCard.tsx",
       "source_location": "L8",
       "id": "newslettercard_newslettercard",
-      "community": 25,
+      "community": 24,
       "norm_label": "newslettercard()"
     },
     {
@@ -581,7 +599,7 @@
       "source_file": "components/blog/SecondaryNewsCard.tsx",
       "source_location": "L1",
       "id": "components_blog_secondarynewscard_tsx",
-      "community": 26,
+      "community": 25,
       "norm_label": "secondarynewscard.tsx"
     },
     {
@@ -590,7 +608,7 @@
       "source_file": "components/blog/SecondaryNewsCard.tsx",
       "source_location": "L11",
       "id": "secondarynewscard_buildposthref",
-      "community": 26,
+      "community": 25,
       "norm_label": "buildposthref()"
     },
     {
@@ -626,7 +644,7 @@
       "source_file": "components/blog/LatestNews.tsx",
       "source_location": "L1",
       "id": "components_blog_latestnews_tsx",
-      "community": 27,
+      "community": 26,
       "norm_label": "latestnews.tsx"
     },
     {
@@ -635,44 +653,8 @@
       "source_file": "components/blog/LatestNews.tsx",
       "source_location": "L18",
       "id": "latestnews_buildposthref",
-      "community": 27,
+      "community": 26,
       "norm_label": "buildposthref()"
-    },
-    {
-      "label": "CategoryShowcase.tsx",
-      "file_type": "code",
-      "source_file": "components/blog/CategoryShowcase.tsx",
-      "source_location": "L1",
-      "id": "components_blog_categoryshowcase_tsx",
-      "community": 8,
-      "norm_label": "categoryshowcase.tsx"
-    },
-    {
-      "label": "normalize()",
-      "file_type": "code",
-      "source_file": "components/blog/CategoryShowcase.tsx",
-      "source_location": "L22",
-      "id": "categoryshowcase_normalize",
-      "community": 8,
-      "norm_label": "normalize()"
-    },
-    {
-      "label": "resolveHref()",
-      "file_type": "code",
-      "source_file": "components/blog/CategoryShowcase.tsx",
-      "source_location": "L31",
-      "id": "categoryshowcase_resolvehref",
-      "community": 8,
-      "norm_label": "resolvehref()"
-    },
-    {
-      "label": "CategoryShowcase()",
-      "file_type": "code",
-      "source_file": "components/blog/CategoryShowcase.tsx",
-      "source_location": "L47",
-      "id": "categoryshowcase_categoryshowcase",
-      "community": 8,
-      "norm_label": "categoryshowcase()"
     },
     {
       "label": "CategoryShowcaseCarousel.tsx",
@@ -680,26 +662,53 @@
       "source_file": "components/blog/CategoryShowcaseCarousel.tsx",
       "source_location": "L1",
       "id": "components_blog_categoryshowcasecarousel_tsx",
-      "community": 12,
+      "community": 6,
       "norm_label": "categoryshowcasecarousel.tsx"
     },
     {
-      "label": "goTo()",
+      "label": "handle()",
       "file_type": "code",
       "source_file": "components/blog/CategoryShowcaseCarousel.tsx",
-      "source_location": "L25",
-      "id": "categoryshowcasecarousel_goto",
-      "community": 12,
-      "norm_label": "goto()"
+      "source_location": "L41",
+      "id": "categoryshowcasecarousel_handle",
+      "community": 6,
+      "norm_label": "handle()"
     },
     {
       "label": "handleScroll()",
       "file_type": "code",
       "source_file": "components/blog/CategoryShowcaseCarousel.tsx",
-      "source_location": "L38",
+      "source_location": "L60",
       "id": "categoryshowcasecarousel_handlescroll",
-      "community": 12,
+      "community": 6,
       "norm_label": "handlescroll()"
+    },
+    {
+      "label": "goToPage()",
+      "file_type": "code",
+      "source_file": "components/blog/CategoryShowcaseCarousel.tsx",
+      "source_location": "L80",
+      "id": "categoryshowcasecarousel_gotopage",
+      "community": 6,
+      "norm_label": "gotopage()"
+    },
+    {
+      "label": "CategoryShowcase.tsx",
+      "file_type": "code",
+      "source_file": "components/blog/CategoryShowcase.tsx",
+      "source_location": "L1",
+      "id": "components_blog_categoryshowcase_tsx",
+      "community": 27,
+      "norm_label": "categoryshowcase.tsx"
+    },
+    {
+      "label": "CategoryShowcase()",
+      "file_type": "code",
+      "source_file": "components/blog/CategoryShowcase.tsx",
+      "source_location": "L15",
+      "id": "categoryshowcase_categoryshowcase",
+      "community": 27,
+      "norm_label": "categoryshowcase()"
     },
     {
       "label": "Header Component",
@@ -729,7 +738,7 @@
       "source_file": "components/layout/HeaderMobileMenu.tsx",
       "source_location": "L1",
       "id": "components_layout_headermobilemenu_tsx",
-      "community": 13,
+      "community": 12,
       "norm_label": "headermobilemenu.tsx"
     },
     {
@@ -738,7 +747,7 @@
       "source_file": "components/layout/HeaderMobileMenu.tsx",
       "source_location": "L39",
       "id": "headermobilemenu_onkeydown",
-      "community": 13,
+      "community": 12,
       "norm_label": "onkeydown()"
     },
     {
@@ -747,7 +756,7 @@
       "source_file": "components/layout/HeaderMobileMenu.tsx",
       "source_location": "L46",
       "id": "headermobilemenu_close",
-      "community": 13,
+      "community": 12,
       "norm_label": "close()"
     },
     {
@@ -955,7 +964,7 @@
       "source_file": "CLAUDE.md",
       "description": "GraphQL query operations organized by entity (posts, post, categories)",
       "file_type": "document",
-      "community": 4,
+      "community": 0,
       "norm_label": "lib/graphql/queries/",
       "id": "graphql_queries_dir"
     },
@@ -975,7 +984,7 @@
       "source_file": "CLAUDE.md",
       "description": "Next.js routing paradigm; pages in app/ directory with layout.tsx, page.tsx, and dynamic routes",
       "file_type": "document",
-      "community": 4,
+      "community": 1,
       "norm_label": "app router",
       "id": "app_router"
     },
@@ -995,7 +1004,7 @@
       "source_file": "CLAUDE.md",
       "description": "Default rendering mode; pages, layouts, and data-reading components are Server Components with async/await",
       "file_type": "document",
-      "community": 4,
+      "community": 0,
       "norm_label": "server components",
       "id": "server_components"
     },
@@ -1005,7 +1014,7 @@
       "source_file": "CLAUDE.md",
       "description": "Used only for state, effects, DOM events, or browser APIs; kept small at leaf nodes",
       "file_type": "document",
-      "community": 4,
+      "community": 0,
       "norm_label": "client components",
       "id": "client_components"
     },
@@ -1045,7 +1054,7 @@
       "source_file": "CLAUDE.md",
       "description": "Used in [category]/[slug]/page.tsx to pre-render published posts at build time with dynamicParams fallback",
       "file_type": "document",
-      "community": 4,
+      "community": 1,
       "norm_label": "generatestaticparams",
       "id": "generate_static_params"
     },
@@ -1135,7 +1144,7 @@
       "source_file": "CLAUDE.md",
       "description": "Client Components are kept small and at leaf nodes to maximize Server Component benefits and reduce client JS",
       "file_type": "document",
-      "community": 4,
+      "community": 0,
       "norm_label": "client component minimization rationale",
       "id": "client_component_minimization_rationale"
     },
@@ -1188,7 +1197,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 14,
+      "community": 13,
       "norm_label": "file/document icon (file.svg)",
       "id": "file_svg_document_icon"
     },
@@ -1201,7 +1210,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 14,
+      "community": 13,
       "norm_label": "globe/world icon (globe.svg)",
       "id": "globe_svg_globe_icon"
     },
@@ -1240,7 +1249,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 14,
+      "community": 13,
       "norm_label": "browser window icon (window.svg)",
       "id": "window_svg_window_icon"
     },
@@ -1478,6 +1487,30 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "lib/parseCategoryShowcase.ts",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_src": "lib_parsecategoryshowcase_ts",
+      "_tgt": "parsecategoryshowcase_striptags",
+      "source": "lib_parsecategoryshowcase_ts",
+      "target": "parsecategoryshowcase_striptags",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/parseCategoryShowcase.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_src": "lib_parsecategoryshowcase_ts",
+      "_tgt": "parsecategoryshowcase_parsecategoryshowcasefromcontent",
+      "source": "lib_parsecategoryshowcase_ts",
+      "target": "parsecategoryshowcase_parsecategoryshowcasefromcontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "lib/graphql/queries/post.ts",
       "source_location": "L91",
       "weight": 1.0,
@@ -1485,54 +1518,6 @@
       "_tgt": "post_getpostbyslug",
       "source": "lib_graphql_queries_post_ts",
       "target": "post_getpostbyslug",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/graphql/queries/posts.ts",
-      "source_location": "L130",
-      "weight": 1.0,
-      "_src": "lib_graphql_queries_posts_ts",
-      "_tgt": "posts_getposts",
-      "source": "lib_graphql_queries_posts_ts",
-      "target": "posts_getposts",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/graphql/queries/posts.ts",
-      "source_location": "L192",
-      "weight": 1.0,
-      "_src": "lib_graphql_queries_posts_ts",
-      "_tgt": "posts_gethighlightedpost",
-      "source": "lib_graphql_queries_posts_ts",
-      "target": "posts_gethighlightedpost",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/graphql/queries/posts.ts",
-      "source_location": "L216",
-      "weight": 1.0,
-      "_src": "lib_graphql_queries_posts_ts",
-      "_tgt": "posts_getallpostslugs",
-      "source": "lib_graphql_queries_posts_ts",
-      "target": "posts_getallpostslugs",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/graphql/queries/posts.ts",
-      "source_location": "L193",
-      "weight": 1.0,
-      "_src": "posts_gethighlightedpost",
-      "_tgt": "posts_getposts",
-      "source": "posts_getposts",
-      "target": "posts_gethighlightedpost",
       "confidence_score": 1.0
     },
     {
@@ -1557,6 +1542,30 @@
       "_tgt": "pages_getpagebyuri",
       "source": "lib_graphql_queries_pages_ts",
       "target": "pages_getpagebyuri",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/graphql/queries/posts.ts",
+      "source_location": "L129",
+      "weight": 1.0,
+      "_src": "lib_graphql_queries_posts_ts",
+      "_tgt": "posts_getposts",
+      "source": "lib_graphql_queries_posts_ts",
+      "target": "posts_getposts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/graphql/queries/posts.ts",
+      "source_location": "L206",
+      "weight": 1.0,
+      "_src": "lib_graphql_queries_posts_ts",
+      "_tgt": "posts_getallpostslugs",
+      "source": "lib_graphql_queries_posts_ts",
+      "target": "posts_getallpostslugs",
       "confidence_score": 1.0
     },
     {
@@ -1754,73 +1763,49 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "components/blog/CategoryShowcase.tsx",
-      "source_location": "L22",
-      "weight": 1.0,
-      "_src": "components_blog_categoryshowcase_tsx",
-      "_tgt": "categoryshowcase_normalize",
-      "source": "components_blog_categoryshowcase_tsx",
-      "target": "categoryshowcase_normalize",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/blog/CategoryShowcase.tsx",
-      "source_location": "L31",
-      "weight": 1.0,
-      "_src": "components_blog_categoryshowcase_tsx",
-      "_tgt": "categoryshowcase_resolvehref",
-      "source": "components_blog_categoryshowcase_tsx",
-      "target": "categoryshowcase_resolvehref",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/blog/CategoryShowcase.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_src": "components_blog_categoryshowcase_tsx",
-      "_tgt": "categoryshowcase_categoryshowcase",
-      "source": "components_blog_categoryshowcase_tsx",
-      "target": "categoryshowcase_categoryshowcase",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "source_file": "components/blog/CategoryShowcase.tsx",
-      "source_location": "L37",
-      "weight": 1.0,
-      "_src": "categoryshowcase_resolvehref",
-      "_tgt": "categoryshowcase_normalize",
-      "source": "categoryshowcase_normalize",
-      "target": "categoryshowcase_resolvehref",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "components/blog/CategoryShowcaseCarousel.tsx",
-      "source_location": "L25",
+      "source_location": "L41",
       "weight": 1.0,
       "_src": "components_blog_categoryshowcasecarousel_tsx",
-      "_tgt": "categoryshowcasecarousel_goto",
+      "_tgt": "categoryshowcasecarousel_handle",
       "source": "components_blog_categoryshowcasecarousel_tsx",
-      "target": "categoryshowcasecarousel_goto",
+      "target": "categoryshowcasecarousel_handle",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/blog/CategoryShowcaseCarousel.tsx",
-      "source_location": "L38",
+      "source_location": "L60",
       "weight": 1.0,
       "_src": "components_blog_categoryshowcasecarousel_tsx",
       "_tgt": "categoryshowcasecarousel_handlescroll",
       "source": "components_blog_categoryshowcasecarousel_tsx",
       "target": "categoryshowcasecarousel_handlescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/blog/CategoryShowcaseCarousel.tsx",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_src": "components_blog_categoryshowcasecarousel_tsx",
+      "_tgt": "categoryshowcasecarousel_gotopage",
+      "source": "components_blog_categoryshowcasecarousel_tsx",
+      "target": "categoryshowcasecarousel_gotopage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/blog/CategoryShowcase.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "components_blog_categoryshowcase_tsx",
+      "_tgt": "categoryshowcase_categoryshowcase",
+      "source": "components_blog_categoryshowcase_tsx",
+      "target": "categoryshowcase_categoryshowcase",
       "confidence_score": 1.0
     },
     {

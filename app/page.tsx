@@ -1,20 +1,26 @@
 import { BlogHero } from "@/components/blog/BlogHero";
 import { CategoryFilter } from "@/components/blog/CategoryFilter";
-import { CategoryShowcase } from "@/components/blog/CategoryShowcase";
+import {
+  CategoryShowcase,
+  COMPONENTS_HOME_URI,
+} from "@/components/blog/CategoryShowcase";
 import { LatestNews } from "@/components/blog/LatestNews";
 import { PostCard } from "@/components/blog/PostCard";
 import { PostCardFeatured } from "@/components/blog/PostCardFeatured";
 import { getCategories } from "@/lib/graphql/queries/categories";
-import { getHighlightedPost, getPosts } from "@/lib/graphql/queries/posts";
+import { getPageByUri } from "@/lib/graphql/queries/pages";
+import { getPosts } from "@/lib/graphql/queries/posts";
 
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const [categories, posts, highlighted] = await Promise.all([
+  const [categories, posts, showcasePage] = await Promise.all([
     getCategories(),
     getPosts({ first: 12 }),
-    getHighlightedPost(),
+    getPageByUri(COMPONENTS_HOME_URI),
   ]);
+
+  const highlighted = posts.find((p) => p.postFields?.postHighlight) ?? null;
 
   const latestPosts = posts.slice(0, 3);
   const latestIds = new Set(latestPosts.map((p) => p.databaseId));
@@ -32,7 +38,7 @@ export default async function HomePage() {
 
       {latestPosts.length > 0 && <LatestNews posts={latestPosts} />}
 
-      <CategoryShowcase categories={categories} />
+      <CategoryShowcase page={showcasePage} />
 
       {highlighted && (
         <section aria-labelledby="featured-heading">

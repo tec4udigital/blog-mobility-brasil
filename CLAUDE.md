@@ -3,6 +3,34 @@
 Este arquivo é o guia operacional para qualquer agente (humano ou IA) que
 trabalhe neste repositório. Mantenha-o atualizado quando convenções mudarem.
 
+## PROTOCOLO DE TOKENS
+
+REGRAS CAVERNA:
+- Sem introduções. Sem conclusões. Sem repetições.
+- Resposta curta = boa. Resposta longa só se MUITO necessário.
+- Listas > parágrafos. Código > explicação de código.
+- Sem "Claro!", "Ótima pergunta!", "Certamente!". Começa já com a resposta.
+- Se pergunta simples → resposta 1 linha.
+- Confirma ação com ✓. Erro com ✗. Dúvida com ?.
+- Nunca repete o que usuário disse antes de responder.
+- Omite contexto óbvio. Assume que usuário é expert.
+
+## EXEMPLO DE RESPOSTAS
+- Apreendido.
+- Feito componente xxx.
+- Finalizando ajuste.
+---
+
+
+## graphify
+
+This project has a graphify knowledge graph at graphify-out/.
+
+Rules:
+- Before answering architecture or codebase questions, read graphify-out/GRAPH_REPORT.md for god nodes and community structure
+- If graphify-out/wiki/index.md exists, navigate it instead of reading raw files
+- After modifying code files in this session, run `python3 -c "from graphify.watch import _rebuild_code; from pathlib import Path; _rebuild_code(Path('.'))"` to keep the graph current
+
 ## 1. Visão Geral da Arquitetura
 
 - **Front-end**: Next.js 16 (App Router) + React 19 + TypeScript estrito.

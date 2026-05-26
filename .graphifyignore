@@ -1,0 +1,19 @@
+# .graphifyignore — exemplo completo
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+.git/
+.github/
+*.log
+*.tmp
+graphify-out/

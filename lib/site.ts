@@ -9,3 +9,5 @@ export const STORE_URL =
 
 export const HELP_URL = `${STORE_URL}/atendimento`;
 export const ACCOUNT_URL = `${STORE_URL}/login`;
+export const ABOUT_URL =
+  process.env.NEXT_PUBLIC_ABOUT_URL ?? `${STORE_URL}/sobre-nos`;

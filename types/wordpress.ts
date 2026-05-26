@@ -211,3 +211,21 @@ export interface GetCategoriesResponse {
     nodes: Category[];
   } | null;
 }
+
+// ---------- Página (WP Page) --------------------------------------------
+
+export interface PageContent {
+  databaseId: number;
+  slug: string;
+  uri: string | null;
+  title: string;
+  content: string | null;
+}
+
+export interface GetPageByUriResponse {
+  page: PageContent | null;
+}
+
+export interface GetPageByUriVariables {
+  uri: string;
+}

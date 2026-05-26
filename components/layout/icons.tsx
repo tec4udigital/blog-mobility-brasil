@@ -51,6 +51,23 @@ export function AngleRightIcon(props: IconProps) {
   );
 }
 
+export function AngleLeftIcon(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M15 6l-6 6 6 6" />
+    </svg>
+  );
+}
+
 export function AngleDownIcon(props: IconProps) {
   return (
     <svg
@@ -95,6 +112,43 @@ export function PersonIcon(props: IconProps) {
       {...props}
     >
       <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.86 0-7 2.46-7 5.5V21h14v-1.5c0-3.04-3.14-5.5-7-5.5z" />
+    </svg>
+  );
+}
+
+export function MessageCaptionsIcon(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" />
+      <path d="M7 9.5h7" />
+      <path d="M7 13h5" />
+    </svg>
+  );
+}
+
+export function ArrowUpRightIcon(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 8 8"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={0.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M1.5 6.5 6.5 1.5" />
+      <path d="M2.5 1.5h4v4" />
     </svg>
   );
 }

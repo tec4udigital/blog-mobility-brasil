@@ -1,4 +1,7 @@
+import { BlogHero } from "@/components/blog/BlogHero";
 import { CategoryFilter } from "@/components/blog/CategoryFilter";
+import { CategoryShowcase } from "@/components/blog/CategoryShowcase";
+import { LatestNews } from "@/components/blog/LatestNews";
 import { PostCard } from "@/components/blog/PostCard";
 import { PostCardFeatured } from "@/components/blog/PostCardFeatured";
 import { getCategories } from "@/lib/graphql/queries/categories";
@@ -13,25 +16,23 @@ export default async function HomePage() {
     getHighlightedPost(),
   ]);
 
-  // Quando o destaque está no topo, removemos do grid para evitar duplicação.
-  const gridPosts = highlighted
-    ? posts.filter((p) => p.databaseId !== highlighted.databaseId)
-    : posts;
+  const latestPosts = posts.slice(0, 3);
+  const latestIds = new Set(latestPosts.map((p) => p.databaseId));
+
+  // Evita duplicação: posts mostrados no LatestNews e o destaque (ACF) saem do grid.
+  const gridPosts = posts.filter(
+    (p) =>
+      !latestIds.has(p.databaseId) &&
+      (!highlighted || p.databaseId !== highlighted.databaseId),
+  );
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 py-12">
-      <section className="flex flex-col gap-4">
-        <p className="text-sm font-semibold uppercase tracking-wider text-neutral-500">
-          Blog Mobility Brasil
-        </p>
-        <h1 className="text-4xl font-bold leading-tight text-neutral-900 sm:text-5xl">
-          Conteúdo para quem move o futuro.
-        </h1>
-        <p className="max-w-2xl text-base text-neutral-600 sm:text-lg">
-          Reflexões e estudos de caso sobre mobilidade urbana, sustentabilidade
-          e tecnologia aplicada ao transporte.
-        </p>
-      </section>
+      <BlogHero categories={categories} />
+
+      {latestPosts.length > 0 && <LatestNews posts={latestPosts} />}
+
+      <CategoryShowcase categories={categories} />
 
       {highlighted && (
         <section aria-labelledby="featured-heading">

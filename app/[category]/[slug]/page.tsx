@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PostCTA } from "@/components/blog/PostCTA";
 import { PostContent } from "@/components/blog/PostContent";
-import { formatDate, safeColor, stripHtml } from "@/lib/format";
+import { PostHero } from "@/components/blog/PostHero";
+import { stripHtml } from "@/lib/format";
 import { getPostBySlug } from "@/lib/graphql/queries/post";
 import { getAllPostSlugs } from "@/lib/graphql/queries/posts";
 
@@ -87,92 +86,33 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
-  const themeColor = safeColor(post.postFields?.postThemeColor ?? null);
   const featured = post.featuredImage?.node;
   const author = post.author?.node;
-  const authorBio =
-    post.postFields?.authorBio ?? author?.description ?? null;
 
   return (
-    <article className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-12">
-      <nav className="text-sm text-neutral-500">
-        <Link href="/" className="hover:text-neutral-900">
-          Blog
-        </Link>
-        {post.categories?.nodes[0] && (
-          <>
-            <span aria-hidden> / </span>
-            <Link
-              href={`/${post.categories.nodes[0].slug}`}
-              className="hover:text-neutral-900"
-            >
-              {post.categories.nodes[0].name}
-            </Link>
-          </>
-        )}
-      </nav>
+    <article className="flex flex-col gap-8 pb-12 pt-6 sm:pt-0">
+      <PostHero
+        title={post.title}
+        date={post.date}
+        content={post.content}
+        author={
+          author
+            ? { name: author.name, avatarUrl: author.avatar?.url ?? null }
+            : null
+        }
+        featuredImage={
+          featured?.sourceUrl
+            ? {
+                sourceUrl: featured.sourceUrl,
+                altText: featured.altText,
+                width: featured.mediaDetails?.width ?? null,
+                height: featured.mediaDetails?.height ?? null,
+              }
+            : null
+        }
+      />
 
-      <header className="flex flex-col gap-4">
-        {themeColor && (
-          <span
-            className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white"
-            style={{ backgroundColor: themeColor }}
-          >
-            {post.categories?.nodes[0]?.name ?? "Artigo"}
-          </span>
-        )}
-
-        <h1 className="text-4xl font-bold leading-tight text-neutral-900 sm:text-5xl">
-          {post.title}
-        </h1>
-
-        {post.excerpt && (
-          <p
-            className="text-lg text-neutral-600"
-            dangerouslySetInnerHTML={{ __html: post.excerpt }}
-          />
-        )}
-
-        <div className="flex flex-wrap items-center gap-4 border-y border-black/5 py-4 text-sm text-neutral-600">
-          {author && (
-            <div className="flex items-center gap-3">
-              {author.avatar?.url && (
-                <Image
-                  src={author.avatar.url}
-                  alt={author.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-              )}
-              <div>
-                <p className="font-medium text-neutral-900">{author.name}</p>
-                {authorBio && (
-                  <p className="text-xs text-neutral-500">{authorBio}</p>
-                )}
-              </div>
-            </div>
-          )}
-          <time dateTime={post.date} className="ml-auto text-xs uppercase tracking-wider">
-            {formatDate(post.date)}
-          </time>
-        </div>
-      </header>
-
-      {featured?.sourceUrl && (
-        <figure className="relative overflow-hidden rounded-2xl bg-neutral-100">
-          <Image
-            src={featured.sourceUrl}
-            alt={featured.altText ?? post.title}
-            width={featured.mediaDetails?.width ?? 1600}
-            height={featured.mediaDetails?.height ?? 900}
-            className="h-auto w-full object-cover"
-            priority
-            sizes="(min-width: 1024px) 768px, 100vw"
-          />
-        </figure>
-      )}
-
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-[18px] sm:px-6">
       <PostContent html={post.content} />
 
       <PostCTA
@@ -193,6 +133,7 @@ export default async function PostPage({ params }: PostPageProps) {
           ))}
         </footer>
       )}
+      </div>
     </article>
   );
 }

@@ -29,7 +29,7 @@ export function CategoryShowcase({ page }: CategoryShowcaseProps) {
   return (
     <section
       aria-labelledby="category-showcase-heading"
-      className="flex flex-col gap-6"
+      className="flex flex-col gap-6 px-6"
     >
       <h2
         id="category-showcase-heading"

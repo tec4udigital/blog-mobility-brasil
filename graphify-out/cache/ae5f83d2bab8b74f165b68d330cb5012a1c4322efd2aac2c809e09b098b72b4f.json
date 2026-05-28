@@ -1,0 +1,1 @@
+{"nodes": [{"id": "lib_mocks_footer_ts", "label": "footer.ts", "file_type": "code", "source_file": "lib/mocks/footer.ts", "source_location": "L1"}], "edges": [{"source": "lib_mocks_footer_ts", "target": "wordpress", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "lib/mocks/footer.ts", "source_location": "L5", "weight": 1.0}]}

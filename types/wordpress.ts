@@ -212,6 +212,63 @@ export interface GetCategoriesResponse {
   } | null;
 }
 
+// ---------- Footer (ACF Options Page) -----------------------------------
+
+export type FooterSocialNetwork =
+  | "instagram"
+  | "facebook"
+  | "tiktok"
+  | "youtube"
+  | "linkedin"
+  | "whatsapp";
+
+export interface FooterSocial {
+  rede: FooterSocialNetwork;
+  url: string;
+}
+
+export interface FooterLink {
+  label: string;
+  url: string;
+  abrirEmNovaAba: boolean | null;
+}
+
+export interface FooterColumn {
+  titulo: string;
+  links: FooterLink[];
+}
+
+export interface FooterLegalLink {
+  label: string;
+  url: string;
+}
+
+export interface FooterNewsletter {
+  titulo: string | null;
+  textoPrincipal: string | null;
+  textoSecundario: string | null;
+  placeholderEmail: string | null;
+  ctaLabel: string | null;
+  textoPrivacidade: string | null;
+  urlPoliticaPrivacidade: string | null;
+}
+
+export interface FooterBottom {
+  copyright: string | null;
+  linksLegais: FooterLegalLink[];
+  textoTecnologia: string | null;
+  urlTecnologia: string | null;
+  textoDesenvolvido: string | null;
+  urlDesenvolvedor: string | null;
+}
+
+export interface FooterData {
+  newsletter: FooterNewsletter | null;
+  colunas: FooterColumn[];
+  redesSociais: FooterSocial[];
+  bottom: FooterBottom | null;
+}
+
 // ---------- Página (WP Page) --------------------------------------------
 
 export interface PageContent {

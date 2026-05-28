@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Lato } from "next/font/google";
+import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import "./globals.css";
 
@@ -57,12 +58,7 @@ export default function RootLayout({
 
         <main className="flex-1">{children}</main>
 
-        <footer className="border-t border-black/5 bg-white">
-          <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-2 px-6 py-8 text-sm text-neutral-500 sm:flex-row">
-            <p>© {new Date().getFullYear()} Mobility Brasil. Todos os direitos reservados.</p>
-            <p>Conteúdo gerenciado em WordPress headless.</p>
-          </div>
-        </footer>
+        <Footer />
       </body>
     </html>
   );

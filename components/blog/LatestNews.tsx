@@ -99,7 +99,7 @@ export function LatestNews({ posts }: LatestNewsProps) {
   return (
     <section
       aria-labelledby="latest-news-heading"
-      className="flex flex-col gap-4 lg:gap-6"
+      className="flex flex-col gap-4 px-6 lg:gap-6"
     >
       <h2
         id="latest-news-heading"

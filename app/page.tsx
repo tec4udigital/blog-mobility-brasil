@@ -5,6 +5,7 @@ import {
 } from "@/components/blog/CategoryShowcase";
 import { LatestNews } from "@/components/blog/LatestNews";
 import { RecentPosts } from "@/components/blog/RecentPosts";
+import { VideoShowcase } from "@/components/blog/VideoShowcase";
 import { getCategories } from "@/lib/graphql/queries/categories";
 import { getPageByUri } from "@/lib/graphql/queries/pages";
 import { getPosts } from "@/lib/graphql/queries/posts";
@@ -21,12 +22,14 @@ export default async function HomePage() {
   const latestPosts = posts.slice(0, 3);
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 py-12">
+    <div className="mx-auto flex max-w-6xl flex-col gap-12 py-12">
       <BlogHero categories={categories} />
 
       {latestPosts.length > 0 && <LatestNews posts={latestPosts} />}
 
       <CategoryShowcase page={showcasePage} />
+
+      <VideoShowcase page={showcasePage} />
 
       <RecentPosts posts={posts} />
     </div>

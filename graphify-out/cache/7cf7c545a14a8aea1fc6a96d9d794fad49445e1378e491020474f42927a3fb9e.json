@@ -1,1 +1,0 @@
-{"nodes": [{"id": "geist_font", "label": "Geist Font", "type": "asset", "source_file": "README.md", "description": "Font family loaded via next/font for automatic optimization"}], "edges": [{"source": "geist_font", "target": "nextjs_16", "relation": "loaded_via", "evidence_type": "EXTRACTED", "confidence_score": 1.0, "source_file": "README.md"}], "hyperedges": []}

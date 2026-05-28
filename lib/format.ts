@@ -32,6 +32,18 @@ export function stripHtml(html: string | null | undefined): string {
 }
 
 /**
+ * Estima tempo de leitura em minutos a partir do HTML bruto do post.
+ * Usa 200 palavras/minuto (média pt-BR) e arredonda para cima, com
+ * mínimo de 1 min.
+ */
+export function getReadingMinutes(html: string | null | undefined): number {
+  const text = stripHtml(html);
+  if (!text) return 1;
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+/**
  * Garante que uma cor enviada pelo ACF seja segura para injeção em
  * `style`. Aceita `#rgb`, `#rrggbb`, `rgb()`, `rgba()` e `hsl()`. Se for
  * inválida, retorna `null`.

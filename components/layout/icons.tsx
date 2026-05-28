@@ -259,6 +259,27 @@ export function WhatsappIcon(props: IconProps) {
   );
 }
 
+export function ShareIcon(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="6" cy="12" r="2.4" />
+      <circle cx="18" cy="5.5" r="2.4" />
+      <circle cx="18" cy="18.5" r="2.4" />
+      <path d="M8.2 10.9l7.6-4.3" />
+      <path d="M8.2 13.1l7.6 4.3" />
+    </svg>
+  );
+}
+
 export function AccessibilityIcon(props: IconProps) {
   return (
     <svg

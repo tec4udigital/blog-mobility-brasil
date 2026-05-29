@@ -8,11 +8,13 @@ import { PostCTA } from "@/components/blog/PostCTA";
 import { PostHero } from "@/components/blog/PostHero";
 import { PostShareSection } from "@/components/blog/PostShareSection";
 import { PostSidebar } from "@/components/blog/PostSidebar";
+import { RelatedPostsCarousel } from "@/components/blog/RelatedPostsCarousel";
 import { stripHtml } from "@/lib/format";
 import { getPostBySlug } from "@/lib/graphql/queries/post";
 import {
   getAllPostSlugs,
   getRecentPosts,
+  getRelatedPosts,
   getTrendingPosts,
 } from "@/lib/graphql/queries/posts";
 
@@ -85,10 +87,11 @@ export async function generateMetadata({
 export default async function PostPage({ params }: PostPageProps) {
   const { category, slug } = await params;
 
-  const [post, recentPosts, trendingPosts] = await Promise.all([
+  const [post, recentPosts, trendingPosts, relatedPosts] = await Promise.all([
     getPostBySlug(slug),
     getRecentPosts({ excludeSlug: slug, first: 5 }),
     getTrendingPosts({ excludeSlug: slug, first: 4 }),
+    getRelatedPosts({ excludeSlug: slug, categorySlug: category, first: 9 }),
   ]);
 
   if (!post) notFound();
@@ -146,6 +149,12 @@ export default async function PostPage({ params }: PostPageProps) {
           trendingPosts={trendingPosts}
         />
       </div>
+
+      {relatedPosts.length > 0 && (
+        <div className="mx-auto w-full max-w-[1440px] px-[18px] sm:px-[54px]">
+          <RelatedPostsCarousel posts={relatedPosts} />
+        </div>
+      )}
     </article>
   );
 }

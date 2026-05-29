@@ -251,6 +251,47 @@ export async function getTrendingPosts(
   return nodes.slice(0, limit);
 }
 
+/**
+ * Posts relacionados — mesma categoria do post atual, excluindo-o.
+ * Se não houver itens suficientes na categoria, completa com os mais
+ * recentes (também excluindo o post atual) para o carrossel nunca ficar
+ * vazio em produção.
+ */
+export async function getRelatedPosts(options: {
+  excludeSlug: string;
+  categorySlug?: string | null;
+  first?: number;
+}): Promise<PostListItem[]> {
+  const limit = options.first ?? 6;
+  const collected: PostListItem[] = [];
+  const seen = new Set<number>();
+
+  function push(items: PostListItem[]) {
+    for (const item of items) {
+      if (collected.length >= limit) break;
+      if (item.slug === options.excludeSlug) continue;
+      if (seen.has(item.databaseId)) continue;
+      seen.add(item.databaseId);
+      collected.push(item);
+    }
+  }
+
+  if (options.categorySlug) {
+    const same = await getPosts({
+      categorySlug: options.categorySlug,
+      first: limit + 1,
+    });
+    push(same);
+  }
+
+  if (collected.length < limit) {
+    const recent = await getPosts({ first: limit + collected.length + 1 });
+    push(recent);
+  }
+
+  return collected;
+}
+
 export async function getAllPostSlugs(): Promise<
   Array<{ slug: string; category: string }>
 > {

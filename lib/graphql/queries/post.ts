@@ -85,7 +85,7 @@ const POST_BY_SLUG_BASIC_QUERY = /* GraphQL */ `
 `;
 
 interface BasicPostResponse {
-  post: Omit<Post, "postFields" | "seo"> | null;
+  post: Omit<Post, "postSettings" | "seo"> | null;
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
@@ -121,7 +121,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     if (basic.post) {
       return {
         ...basic.post,
-        postFields: null,
+        postSettings: null,
         seo: null,
       };
     }

@@ -16,7 +16,7 @@ function buildPostHref(post: PostListItem): string {
 
 export function PostCard({ post, priority = false }: PostCardProps) {
   const href = buildPostHref(post);
-  const themeColor = safeColor(post.postFields?.postThemeColor ?? null);
+  const themeColor = safeColor(post.postSettings?.postThemeColor ?? null);
   const featured = post.featuredImage?.node;
   const category = post.categories?.nodes[0];
 

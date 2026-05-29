@@ -4,9 +4,10 @@
  * `POST_LIST_FIELDS_FRAGMENT` é usado em listagens (sem `content`).
  * Para o post individual, faça spread + `content` na query.
  *
- * O nome do field group ACF assumido é `postFields` (graphql_field_name).
- * Se o seu Field Group estiver com outro nome, ajuste aqui e em
- * `types/wordpress.ts`.
+ * O Field Group ACF se chama "Post Settings" (graphql_field_name:
+ * `postSettings`). Quando os campos no WP estão em snake_case
+ * (`post_highlight`, `post_cta_url`, ...), o WPGraphQL ACF expõe os mesmos
+ * em camelCase automaticamente.
  */
 export const POST_LIST_FIELDS_FRAGMENT = /* GraphQL */ `
   fragment PostListFields on Post {
@@ -55,11 +56,12 @@ export const POST_LIST_FIELDS_FRAGMENT = /* GraphQL */ `
         slug
       }
     }
-    postFields {
+    postSettings {
       postHighlight
       postThemeColor
       authorBio
-      postCTA
+      postCtaLabel
+      postCtaUrl
     }
   }
 `;

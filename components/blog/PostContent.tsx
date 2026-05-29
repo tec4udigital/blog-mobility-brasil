@@ -4,15 +4,10 @@ interface PostContentProps {
 }
 
 /**
- * Renderiza o HTML do conteúdo do post.
- *
- * O HTML aqui vem direto do editor do WordPress, que é uma fonte confiável
- * (apenas editores autenticados conseguem publicar). Mesmo assim, fazemos
- * uma limpeza defensiva removendo `<script>`, handlers `on*=` e `javascript:`
- * antes de injetar — Server Component, sanitização ocorre no servidor.
- *
- * Quando a equipe permitir comentários ou contribuições externas, troque
- * por uma sanitização mais robusta (ex.: `isomorphic-dompurify`).
+ * Sanitização defensiva — o HTML vem de editores autenticados, mas ainda
+ * assim removemos `<script>`, handlers `on*=` e `javascript:` antes de
+ * injetar via `dangerouslySetInnerHTML`. Se eventualmente o blog aceitar
+ * conteúdo de terceiros, troque por algo robusto (ex.: `isomorphic-dompurify`).
  */
 function sanitizeHtml(html: string): string {
   return html
@@ -25,14 +20,66 @@ function sanitizeHtml(html: string): string {
     .replace(/href\s*=\s*'\s*javascript:[^']*'/gi, "href='#'");
 }
 
+/**
+ * Reescreve `<iframe>` para ser responsivo:
+ *
+ * - Lê `width`/`height` (atributos ou inline style) para descobrir o aspect
+ *   ratio nativo do embed; usa 16/9 como fallback.
+ * - Remove os atributos `width`/`height` que o navegador respeitaria.
+ * - Envolve o `<iframe>` num wrapper com `aspect-ratio` aplicado por CSS
+ *   (.post-embed), de modo a não depender das classes que o WP injeta
+ *   (que mudam entre versões do Gutenberg).
+ *
+ * Roda no servidor — sem custo no cliente.
+ */
+function wrapEmbeds(html: string): string {
+  return html.replace(
+    /<iframe\b([^>]*)>([\s\S]*?)<\/iframe>/gi,
+    (_match, rawAttrs: string, inner: string) => {
+      const attrs = rawAttrs;
+
+      const widthMatch =
+        attrs.match(/\bwidth\s*=\s*["']?(\d+)/i) ??
+        attrs.match(/width\s*:\s*(\d+)/i);
+      const heightMatch =
+        attrs.match(/\bheight\s*=\s*["']?(\d+)/i) ??
+        attrs.match(/height\s*:\s*(\d+)/i);
+
+      let aspect = "16 / 9";
+      if (widthMatch && heightMatch) {
+        const w = Number(widthMatch[1]);
+        const h = Number(heightMatch[1]);
+        if (w > 0 && h > 0) aspect = `${w} / ${h}`;
+      }
+
+      // Remove dimensões fixas (atributos e propriedades CSS).
+      const cleanedAttrs = attrs
+        .replace(/\swidth\s*=\s*["'][^"']*["']/gi, "")
+        .replace(/\sheight\s*=\s*["'][^"']*["']/gi, "")
+        .replace(/\swidth\s*=\s*\d+/gi, "")
+        .replace(/\sheight\s*=\s*\d+/gi, "")
+        .replace(/(style\s*=\s*["'])[^"']*["']/gi, (_full, prefix: string) => {
+          const cleaned = _full
+            .replace(/width\s*:\s*[^;"']+;?/gi, "")
+            .replace(/height\s*:\s*[^;"']+;?/gi, "");
+          return cleaned.length > prefix.length + 1 ? cleaned : "";
+        });
+
+      return (
+        `<div class="post-embed" style="--aspect:${aspect}">` +
+        `<iframe${cleanedAttrs} loading="lazy">${inner}</iframe>` +
+        `</div>`
+      );
+    },
+  );
+}
+
 export function PostContent({ html }: PostContentProps) {
-  const clean = sanitizeHtml(html);
+  const clean = wrapEmbeds(sanitizeHtml(html));
 
   return (
     <div
-      className="prose prose-neutral max-w-none prose-headings:font-semibold prose-a:text-neutral-900 prose-a:underline prose-img:rounded-xl"
-      // O HTML já foi sanitizado acima. Esta é a única forma suportada pelo
-      // React para renderizar markup vindo do CMS.
+      className="post-content"
       dangerouslySetInnerHTML={{ __html: clean }}
     />
   );

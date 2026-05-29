@@ -85,11 +85,12 @@ const baseListItem = (overrides: Partial<PostListItem>): PostListItem => ({
   },
   categories: { nodes: [MOCK_CATEGORIES[0]] },
   tags: { nodes: [] },
-  postFields: {
+  postSettings: {
     postHighlight: false,
     postThemeColor: null,
     authorBio: null,
-    postCTA: null,
+    postCtaLabel: null,
+    postCtaUrl: null,
   },
   seo: null,
   ...overrides,
@@ -104,11 +105,12 @@ export const MOCK_POSTS: PostListItem[] = [
     excerpt:
       "<p>Como a infraestrutura de recarga e os incentivos fiscais estão moldando a próxima década da mobilidade no país.</p>",
     categories: { nodes: [MOCK_CATEGORIES[0]] },
-    postFields: {
+    postSettings: {
       postHighlight: true,
       postThemeColor: "#0f766e",
       authorBio: "Especialista em transporte sustentável.",
-      postCTA: "https://mobilitybrasil.com/contato",
+      postCtaLabel: "Fale com a Mobility",
+      postCtaUrl: "https://mobilitybrasil.com/contato",
     },
   }),
   baseListItem({

@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PostCTA } from "@/components/blog/PostCTA";
+import { PostBottomCTA } from "@/components/blog/PostBottomCTA";
+import { PostCategoryBreadcrumb } from "@/components/blog/PostCategoryBreadcrumb";
+import { PostCommentForm } from "@/components/blog/PostCommentForm";
 import { PostContent } from "@/components/blog/PostContent";
+import { PostCTA } from "@/components/blog/PostCTA";
 import { PostHero } from "@/components/blog/PostHero";
+import { PostShareSection } from "@/components/blog/PostShareSection";
+import { PostSidebar } from "@/components/blog/PostSidebar";
 import { stripHtml } from "@/lib/format";
 import { getPostBySlug } from "@/lib/graphql/queries/post";
-import { getAllPostSlugs } from "@/lib/graphql/queries/posts";
+import {
+  getAllPostSlugs,
+  getRecentPosts,
+  getTrendingPosts,
+} from "@/lib/graphql/queries/posts";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -75,7 +84,12 @@ export async function generateMetadata({
 
 export default async function PostPage({ params }: PostPageProps) {
   const { category, slug } = await params;
-  const post = await getPostBySlug(slug);
+
+  const [post, recentPosts, trendingPosts] = await Promise.all([
+    getPostBySlug(slug),
+    getRecentPosts({ excludeSlug: slug, first: 5 }),
+    getTrendingPosts({ excludeSlug: slug, first: 4 }),
+  ]);
 
   if (!post) notFound();
 
@@ -88,9 +102,10 @@ export default async function PostPage({ params }: PostPageProps) {
 
   const featured = post.featuredImage?.node;
   const author = post.author?.node;
+  const categories = post.categories?.nodes ?? [];
 
   return (
-    <article className="flex flex-col gap-8 pb-12 pt-6 sm:pt-0">
+    <article className="flex flex-col gap-10 pb-12 pt-6 sm:gap-12 sm:pt-0">
       <PostHero
         title={post.title}
         date={post.date}
@@ -112,27 +127,24 @@ export default async function PostPage({ params }: PostPageProps) {
         }
       />
 
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-[18px] sm:px-6">
-      <PostContent html={post.content} />
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-10 px-[18px] sm:px-[54px] lg:flex-row lg:items-start lg:justify-between lg:gap-10">
+        <div className="flex min-w-0 flex-col gap-[38px] lg:w-[850px]">
+          <PostCategoryBreadcrumb categories={categories} />
+          <PostContent html={post.content} />
+          <PostCTA
+            url={post.postSettings?.postCtaUrl ?? null}
+            label={post.postSettings?.postCtaLabel ?? undefined}
+            themeColor={post.postSettings?.postThemeColor ?? null}
+          />
+          <PostBottomCTA />
+          <PostShareSection title={post.title} />
+          <PostCommentForm />
+        </div>
 
-      <PostCTA
-        url={post.postFields?.postCTA ?? null}
-        themeColor={post.postFields?.postThemeColor ?? null}
-      />
-
-      {post.tags?.nodes && post.tags.nodes.length > 0 && (
-        <footer className="flex flex-wrap items-center gap-2 border-t border-black/5 pt-6 text-sm">
-          <span className="text-neutral-500">Tags:</span>
-          {post.tags.nodes.map((tag) => (
-            <span
-              key={tag.databaseId}
-              className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700"
-            >
-              #{tag.name}
-            </span>
-          ))}
-        </footer>
-      )}
+        <PostSidebar
+          recentPosts={recentPosts}
+          trendingPosts={trendingPosts}
+        />
       </div>
     </article>
   );

@@ -127,15 +127,17 @@ export interface PostTags {
 // ---------- ACF do Post --------------------------------------------------
 
 /**
- * Espelha o Field Group ACF aplicado ao tipo `post`. O nome da chave no
- * GraphQL é definido pelo `graphql_field_name` do Field Group — aqui usa-se
- * `postFields` por padrão. Ajuste se o nome no WP for diferente.
+ * Espelha o Field Group ACF "Post Settings" aplicado ao tipo `post`.
+ * O `graphql_field_name` do grupo é `postSettings`. Os campos individuais
+ * são expostos em camelCase a partir do nome snake_case do ACF
+ * (`post_highlight` → `postHighlight`, `post_cta_url` → `postCtaUrl`, etc).
  */
-export interface ACFPostFields {
+export interface ACFPostSettings {
   postHighlight: boolean | null;
   postThemeColor: string | null;
   authorBio: string | null;
-  postCTA: string | null;
+  postCtaLabel: string | null;
+  postCtaUrl: string | null;
 }
 
 // ---------- Post --------------------------------------------------------
@@ -153,7 +155,7 @@ export interface PostListItem {
   author: Author | null;
   categories: PostCategories | null;
   tags: PostTags | null;
-  postFields: ACFPostFields | null;
+  postSettings: ACFPostSettings | null;
   seo?: SEOData | null;
 }
 

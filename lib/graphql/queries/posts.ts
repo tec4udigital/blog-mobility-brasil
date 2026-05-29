@@ -122,7 +122,7 @@ const POSTS_BASIC_QUERY = /* GraphQL */ `
 
 interface BasicPostsResponse {
   posts: {
-    nodes: Array<Omit<PostListItem, "postFields" | "seo">>;
+    nodes: Array<Omit<PostListItem, "postSettings" | "seo">>;
   } | null;
 }
 
@@ -162,7 +162,7 @@ export async function getPosts(
         { tags, operationName: "GetPostsBasic" },
       );
       const basicNodes = basic.posts?.nodes ?? [];
-      nodes = basicNodes.map((n) => ({ ...n, postFields: null, seo: null }));
+      nodes = basicNodes.map((n) => ({ ...n, postSettings: null, seo: null }));
     } catch (error) {
       console.warn(
         "[wordpress] getPosts básica falhou, caindo para MOCK_POSTS.",
@@ -179,7 +179,7 @@ export async function getPosts(
   }
 
   if (variables.highlightedOnly) {
-    return nodes.filter((p) => p.postFields?.postHighlight === true);
+    return nodes.filter((p) => p.postSettings?.postHighlight === true);
   }
   return nodes;
 }
@@ -202,6 +202,54 @@ export const ALL_POST_SLUGS_QUERY = /* GraphQL */ `
     }
   }
 `;
+
+/**
+ * Pega os N posts mais recentes excluindo, opcionalmente, um slug específico
+ * (útil para sidebars de post individual, onde não queremos repetir o post
+ * atual na lista de "Mais recentes").
+ */
+export async function getRecentPosts(
+  options: { excludeSlug?: string | null; first?: number } = {},
+): Promise<PostListItem[]> {
+  const limit = options.first ?? 5;
+  // Pega um a mais para ainda termos `limit` após excluir o atual.
+  const fetchSize = options.excludeSlug ? limit + 1 : limit;
+  const posts = await getPosts({ first: fetchSize });
+  const filtered = options.excludeSlug
+    ? posts.filter((p) => p.slug !== options.excludeSlug)
+    : posts;
+  return filtered.slice(0, limit);
+}
+
+/**
+ * "Artigos em alta" — usa o ACF `postHighlight` como sinalizador editorial
+ * (não há contagem de views no WordPress sem plugin). Se não houver
+ * destaques suficientes, completa com os mais recentes para a lista nunca
+ * ficar vazia em produção.
+ */
+export async function getTrendingPosts(
+  options: { excludeSlug?: string | null; first?: number } = {},
+): Promise<PostListItem[]> {
+  const limit = options.first ?? 4;
+
+  const highlighted = await getPosts({ highlightedOnly: true, first: 20 });
+  let nodes = options.excludeSlug
+    ? highlighted.filter((p) => p.slug !== options.excludeSlug)
+    : highlighted;
+
+  if (nodes.length < limit) {
+    const recent = await getPosts({ first: limit + 6 });
+    const seen = new Set(nodes.map((p) => p.databaseId));
+    const filler = recent.filter(
+      (p) =>
+        !seen.has(p.databaseId) &&
+        (!options.excludeSlug || p.slug !== options.excludeSlug),
+    );
+    nodes = [...nodes, ...filler];
+  }
+
+  return nodes.slice(0, limit);
+}
 
 export async function getAllPostSlugs(): Promise<
   Array<{ slug: string; category: string }>

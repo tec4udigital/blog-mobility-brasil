@@ -45,3 +45,167 @@ video:-webkit-full-screen {
   height: 100% !important;
   background: #000;
 }
+
+/* Tipografia do corpo do post — espelha o Figma (cards 1314:10713 desktop
+   e 1322:12276 mobile). H2 marca início de cada seção, com divisor visual
+   acima a partir da segunda seção. */
+.post-content {
+  color: #000;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 24px;
+  text-align: justify;
+}
+
+@media (min-width: 1024px) {
+  .post-content { font-size: 16px; }
+}
+
+.post-content > * + * { margin-top: 28px; }
+.post-content > * + h2,
+.post-content > * + h3 { margin-top: 32px; }
+.post-content > h2 + *,
+.post-content > h3 + * { margin-top: 32px; }
+.post-content > * + img,
+.post-content > * + figure { margin-top: 38px; }
+
+.post-content h2 {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #000;
+  text-align: left;
+}
+
+.post-content h3 {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #000;
+  text-align: left;
+}
+
+@media (min-width: 1024px) {
+  .post-content h2 { font-size: 24px; }
+  .post-content h3 { font-size: 20px; }
+}
+
+/* Linha divisória entre seções marcadas por H2 (a partir da segunda). */
+.post-content > h2 ~ h2,
+.post-content > * + h2:not(:first-child) {
+  padding-top: 38px;
+  border-top: 0.5px solid rgba(132, 134, 136, 0.3);
+}
+.post-content > h2:first-child { padding-top: 0; border-top: 0; }
+
+.post-content p { line-height: 24px; }
+
+.post-content img,
+.post-content figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-inline: auto;
+}
+
+.post-content figure { margin: 0; }
+.post-content figcaption {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #848688;
+  text-align: center;
+}
+
+.post-content a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.post-content strong { font-weight: 700; }
+.post-content em { font-style: italic; }
+
+.post-content ul,
+.post-content ol {
+  padding-left: 1.5rem;
+}
+.post-content ul { list-style: disc; }
+.post-content ol { list-style: decimal; }
+.post-content li + li { margin-top: 8px; }
+
+.post-content blockquote {
+  border-left: 4px solid rgba(132, 134, 136, 0.3);
+  padding: 8px 16px;
+  font-style: italic;
+  color: #2d2d2d;
+}
+
+/* Permite que o conteúdo encolha junto com o container pai mesmo quando há
+   filhos com largura intrínseca grande (iframes, tabelas, imagens). */
+.post-content {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Embeds responsivos — o `PostContent` transforma todo `<iframe>` em
+   `<div class="post-embed" style="--aspect:W/H"><iframe ...></div>` no
+   servidor, então não dependemos das classes que o WP gera. As regras
+   abaixo cobrem ainda o caso de iframe solto (fallback) e os wrappers
+   nativos do Gutenberg (`wp-block-embed`). */
+.post-content iframe,
+.post-content embed,
+.post-content object,
+.post-content video {
+  max-width: 100%;
+  border: 0;
+}
+
+.post-content .post-embed {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 38px 0;
+  aspect-ratio: var(--aspect, 16 / 9);
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.post-content .post-embed > iframe,
+.post-content .post-embed > embed,
+.post-content .post-embed > object {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Fallback: iframe sem o wrapper `.post-embed` (caso raro em que o regex
+   não casou — ex.: iframe inline dentro de outro container). */
+.post-content > iframe,
+.post-content p > iframe,
+.post-content figure > iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+/* Embeds nativos do Gutenberg (caso ainda haja conteúdo legado fora do
+   transform). Mantém compatibilidade. */
+.post-content .wp-block-embed { margin: 38px 0; width: 100%; }
+.post-content .wp-block-embed__wrapper { position: relative; width: 100%; }
+.post-content .wp-embed-aspect-16-9 .wp-block-embed__wrapper { aspect-ratio: 16 / 9; }
+.post-content .wp-embed-aspect-4-3  .wp-block-embed__wrapper { aspect-ratio: 4 / 3; }
+.post-content .wp-embed-aspect-1-1  .wp-block-embed__wrapper { aspect-ratio: 1 / 1; }
+.post-content .wp-embed-aspect-9-16 .wp-block-embed__wrapper { aspect-ratio: 9 / 16; }
+.post-content .wp-embed-aspect-21-9 .wp-block-embed__wrapper { aspect-ratio: 21 / 9; }
+.post-content .wp-block-embed.wp-has-aspect-ratio .wp-block-embed__wrapper > iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}

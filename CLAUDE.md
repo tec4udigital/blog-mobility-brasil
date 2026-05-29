@@ -161,10 +161,21 @@ npm run start    # roda o build localmente
 npm run lint     # ESLint
 ```
 
-## 9. O que ainda não está pronto
+## 9. Revalidação ISR (WordPress → Next.js)
 
-- Webhook `/api/revalidate` (será criado quando o WP estiver configurado
-  para disparar).
+- Rota: `app/api/revalidate/route.ts` — aceita `POST` ou `GET` com
+  `tag(s)` / `path(s)` via querystring ou JSON. Autentica via header
+  `X-Revalidate-Secret` (preferido), `Authorization: Bearer ...` ou
+  querystring `?secret=`.
+- Plugin WP: `wordpress-plugin/mobility-revalidate/` — instalar via zip
+  no WP Admin e configurar endpoint + secret. Hooks cobertos:
+  `transition_post_status`, `acf/save_post`, `before_delete_post`,
+  `created_category` / `edited_category` / `delete_category`.
+- Secret compartilhado: `WORDPRESS_REVALIDATE_SECRET` (Vercel + opção
+  do plugin).
+
+## 10. O que ainda não está pronto
+
 - `sitemap.ts` / `robots.ts` — fase de SEO.
 - Design system do Figma — fase 2.
 - Autenticação para áreas privadas (não previsto).

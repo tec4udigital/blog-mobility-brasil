@@ -43,7 +43,9 @@ export async function getCategories(): Promise<Category[]> {
       { first: 100 },
       { tags: [cacheTags.categories], operationName: "GetCategories" },
     );
-    const nodes = data.categories?.nodes ?? [];
+    const nodes = (data.categories?.nodes ?? []).filter(
+      (category) => category.slug !== "uncategorized",
+    );
     if (nodes.length > 0) return nodes;
     return MOCK_CATEGORIES;
   } catch (error) {

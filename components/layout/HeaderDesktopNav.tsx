@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Category } from "@/types/wordpress";
 import { AngleDownIcon } from "./icons";
 
@@ -9,14 +9,28 @@ interface HeaderDesktopNavProps {
   categories: Category[];
 }
 
-/**
- * Nav desktop do header. Renderiza cada categoria raiz como link e abre um
- * dropdown no hover quando houver categorias filhas. O estado é necessário
- * porque o hover precisa também responder ao foco do teclado (acessibilidade)
- * — daí ser Client Component.
- */
 export function HeaderDesktopNav({ categories }: HeaderDesktopNavProps) {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const open = (slug: string) => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setOpenSlug(slug);
+  };
+
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpenSlug(null), 180);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
 
   return (
     <ul className="flex items-center gap-8">
@@ -29,16 +43,15 @@ export function HeaderDesktopNav({ categories }: HeaderDesktopNavProps) {
         return (
           <li
             key={category.databaseId}
-            className="relative"
-            onMouseEnter={() => hasChildren && setOpenSlug(category.slug)}
-            onMouseLeave={() => hasChildren && setOpenSlug(null)}
-            onFocus={() => hasChildren && setOpenSlug(category.slug)}
+            onMouseEnter={() => hasChildren && open(category.slug)}
+            onMouseLeave={() => hasChildren && scheduleClose()}
+            onFocus={() => hasChildren && open(category.slug)}
             onBlur={(event) => {
               if (
                 hasChildren &&
                 !event.currentTarget.contains(event.relatedTarget as Node)
               ) {
-                setOpenSlug(null);
+                scheduleClose();
               }
             }}
           >
@@ -54,16 +67,18 @@ export function HeaderDesktopNav({ categories }: HeaderDesktopNavProps) {
 
             {hasChildren && (
               <div
-                className={`absolute left-1/2 top-full z-50 min-w-[220px] -translate-x-1/2 pt-2 ${
+                className={`absolute left-0 right-0 top-full z-40 bg-neutral-100 shadow-[0_4px_2px_rgba(0,0,0,0.08)] ${
                   isOpen ? "block" : "hidden"
                 }`}
+                onMouseEnter={() => open(category.slug)}
+                onMouseLeave={scheduleClose}
               >
-                <ul className="overflow-hidden rounded-md bg-white py-2 shadow-lg ring-1 ring-black/5">
+                <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-2 px-8 py-3">
                   {children.map((child) => (
                     <li key={child.databaseId}>
                       <Link
                         href={`/${child.slug}`}
-                        className="block px-4 py-2 text-sm text-neutral-800 transition-colors hover:bg-neutral-100"
+                        className="font-display block text-[12px] font-medium uppercase italic tracking-[0.05em] text-neutral-800 transition-opacity hover:opacity-70"
                       >
                         {child.name}
                       </Link>

@@ -10,6 +10,7 @@ import { PostShareSection } from "@/components/blog/PostShareSection";
 import { PostSidebar } from "@/components/blog/PostSidebar";
 import { RelatedPostsCarousel } from "@/components/blog/RelatedPostsCarousel";
 import { stripHtml } from "@/lib/format";
+import { extractPostButtons } from "@/lib/postButtons";
 import { getPostBySlug } from "@/lib/graphql/queries/post";
 import {
   getAllPostSlugs,
@@ -106,6 +107,9 @@ export default async function PostPage({ params }: PostPageProps) {
   const featured = post.featuredImage?.node;
   const author = post.author?.node;
   const categories = post.categories?.nodes ?? [];
+  const { buttons: ctaButtons, html: contentHtml } = extractPostButtons(
+    post.content,
+  );
 
   return (
     <article className="flex flex-col gap-10 pb-12 pt-6 sm:gap-12 sm:pt-0">
@@ -133,15 +137,15 @@ export default async function PostPage({ params }: PostPageProps) {
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-10 px-[18px] sm:px-[54px] lg:flex-row lg:items-start lg:justify-between lg:gap-10">
         <div className="flex min-w-0 flex-col gap-[38px] lg:w-[850px]">
           <PostCategoryBreadcrumb categories={categories} />
-          <PostContent html={post.content} />
+          <PostContent html={contentHtml} />
           <PostCTA
-            url={post.postSettings?.postCtaUrl ?? null}
+            url="/"
             label={post.postSettings?.postCtaLabel ?? undefined}
             themeColor={post.postSettings?.postThemeColor ?? null}
           />
-          <PostBottomCTA />
+          <PostBottomCTA buttons={ctaButtons} />
           <PostShareSection title={post.title} />
-          <PostCommentForm />
+          <PostCommentForm postId={post.databaseId} />
         </div>
 
         <PostSidebar

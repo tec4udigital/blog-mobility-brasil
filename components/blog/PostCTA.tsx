@@ -26,17 +26,27 @@ export function PostCTA({
 }: PostCTAProps) {
   if (!url) return null;
 
-  let parsed: URL | null = null;
-  try {
-    parsed = new URL(url);
-  } catch {
-    return null;
+  // Link interno (relativo à raiz) — ex.: "/" para a home do blog.
+  const isInternal = url.startsWith("/");
+
+  let href = url;
+  let isExternal = false;
+
+  if (!isInternal) {
+    let parsed: URL | null = null;
+    try {
+      parsed = new URL(url);
+    } catch {
+      return null;
+    }
+
+    const allowedProtocols = new Set(["http:", "https:", "mailto:", "tel:"]);
+    if (!allowedProtocols.has(parsed.protocol)) return null;
+
+    isExternal = parsed.protocol === "http:" || parsed.protocol === "https:";
+    href = parsed.toString();
   }
 
-  const allowedProtocols = new Set(["http:", "https:", "mailto:", "tel:"]);
-  if (!allowedProtocols.has(parsed.protocol)) return null;
-
-  const isExternal = parsed.protocol === "http:" || parsed.protocol === "https:";
   const accent = safeColor(themeColor) ?? "#111827";
 
   return (
@@ -57,7 +67,7 @@ export function PostCTA({
       </div>
 
       <a
-        href={parsed.toString()}
+        href={href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
         className="inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"

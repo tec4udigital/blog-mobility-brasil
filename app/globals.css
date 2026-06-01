@@ -46,6 +46,153 @@ video:-webkit-full-screen {
   background: #000;
 }
 
+/* ===== Barra de acessibilidade (contraste, fonte, leitura falada) =====
+   Porte do componente do site principal. Estilos globais pois mira o <html>
+   e elementos arbitrários da página. */
+.acessibilidade {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  width: 40px;
+  background: #fff;
+  border: 1px solid #848688;
+  border-radius: 4px 0 0 4px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.05);
+}
+.acessibilidade-botao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: none;
+  background: #fff;
+  color: #2d2d2d;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.acessibilidade > .acessibilidade-botao:first-child {
+  border-radius: 4px 0 0 0;
+}
+.acessibilidade > .acessibilidade-botao:last-child {
+  border-radius: 0 0 0 4px;
+}
+.acessibilidade > .acessibilidade-botao + .acessibilidade-botao {
+  border-top: 1px solid #e7e7e7;
+}
+.acessibilidade-botao:hover,
+.acessibilidade-botao:focus-visible {
+  background: #f5f5f5;
+  outline: none;
+}
+.acessibilidade-botao:focus-visible {
+  outline: 2px solid #2d2d2d;
+  outline-offset: -2px;
+}
+.acessibilidade-botao--ativo {
+  background: #2d2d2d;
+  color: #fff;
+}
+.acessibilidade-botao:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.acessibilidade-icone {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+.acessibilidade-icone svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* Flyout com controles de zoom (+ / -), ancorado à esquerda da barra */
+.acessibilidade-zoom {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #848688;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  animation: acessFlyoutIn 0.2s ease;
+}
+.acessibilidade-zoom .acessibilidade-botao {
+  border-radius: 0;
+}
+.acessibilidade-zoom-nivel {
+  min-width: 44px;
+  padding: 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  color: #2d2d2d;
+  border-left: 1px solid #e7e7e7;
+  border-right: 1px solid #e7e7e7;
+  user-select: none;
+}
+@keyframes acessFlyoutIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+/* Alto contraste: inverte luminância da página (branco<->preto) preservando matiz */
+html.acessibilidade-contraste {
+  background-color: #fff; /* base branca p/ o invert resultar em preto */
+  filter: invert(1) hue-rotate(180deg);
+  -webkit-filter: invert(1) hue-rotate(180deg);
+}
+/* Counter-invert: mídia e a própria barra voltam à aparência natural */
+html.acessibilidade-contraste img,
+html.acessibilidade-contraste video,
+html.acessibilidade-contraste iframe,
+html.acessibilidade-contraste canvas,
+html.acessibilidade-contraste embed,
+html.acessibilidade-contraste object,
+html.acessibilidade-contraste #barraAcessibilidade {
+  filter: invert(1) hue-rotate(180deg);
+  -webkit-filter: invert(1) hue-rotate(180deg);
+}
+/* Logo (branco) deve inverter junto p/ ficar visível no header clareado */
+html.acessibilidade-contraste img[alt="Mobility Brasil"] {
+  filter: none;
+  -webkit-filter: none;
+}
+
+/* Modo leitura em voz alta: cursor especial (alto-falante) em toda a página */
+html.acessibilidade-audio,
+html.acessibilidade-audio * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23fff' stroke='%231c1b1f' stroke-width='1.5'/%3E%3Cpath fill='%231c1b1f' d='M7 10v4h2.5l3 3V7l-3 3H7zm8.5 2c0-1.2-.7-2.2-1.7-2.7v5.4c1-.5 1.7-1.5 1.7-2.7z'/%3E%3C/svg%3E") 12 12, pointer !important;
+}
+/* Contorno do elemento sob o cursor / sendo lido */
+html.acessibilidade-audio .acessibilidade-audio-alvo {
+  outline: 3px solid #1c1b1f !important;
+  outline-offset: 2px;
+}
+/* A barra de acessibilidade mantém cursor padrão e segue clicável */
+html.acessibilidade-audio #barraAcessibilidade,
+html.acessibilidade-audio #barraAcessibilidade * {
+  cursor: pointer !important;
+}
+
 /* Tipografia do corpo do post — espelha o Figma (cards 1314:10713 desktop
    e 1322:12276 mobile). H2 marca início de cada seção, com divisor visual
    acima a partir da segunda seção. */

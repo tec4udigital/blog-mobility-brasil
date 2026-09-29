@@ -5,10 +5,12 @@ import {
 } from "@/components/blog/CategoryShowcase";
 import { LatestNews } from "@/components/blog/LatestNews";
 import { RecentPosts } from "@/components/blog/RecentPosts";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { VideoShowcase } from "@/components/blog/VideoShowcase";
 import { getCategories } from "@/lib/graphql/queries/categories";
 import { getPageByUri } from "@/lib/graphql/queries/pages";
 import { getPosts } from "@/lib/graphql/queries/posts";
+import { buildBlogHomeJsonLd } from "@/lib/structuredData";
 
 export const revalidate = 3600;
 
@@ -23,6 +25,7 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-12 py-12">
+      <JsonLd data={buildBlogHomeJsonLd(posts)} />
       <BlogHero categories={categories} />
 
       {latestPosts.length > 0 && <LatestNews posts={latestPosts} />}

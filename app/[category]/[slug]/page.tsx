@@ -6,12 +6,14 @@ import { PostCommentForm } from "@/components/blog/PostCommentForm";
 import { PostContent } from "@/components/blog/PostContent";
 import { PostCTA } from "@/components/blog/PostCTA";
 import { PostHero } from "@/components/blog/PostHero";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { PostShareSection } from "@/components/blog/PostShareSection";
 import { PostSidebar } from "@/components/blog/PostSidebar";
 import { RelatedPostsCarousel } from "@/components/blog/RelatedPostsCarousel";
 import { stripHtml, stripWrongSiteName } from "@/lib/format";
 import { extractPostButtons } from "@/lib/postButtons";
 import { getPostBySlug } from "@/lib/graphql/queries/post";
+import { buildPostJsonLd } from "@/lib/structuredData";
 import { SITE_URL, WORDPRESS_HOSTNAME } from "@/lib/wordpress";
 import {
   getAllPostSlugs,
@@ -130,6 +132,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <article className="flex flex-col gap-10 pb-12 pt-6 sm:gap-12 sm:pt-0">
+      <JsonLd data={buildPostJsonLd(post)} />
       <PostHero
         title={post.title}
         date={post.date}

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CategoryFilter } from "@/components/blog/CategoryFilter";
 import { PostCard } from "@/components/blog/PostCard";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getCategories } from "@/lib/graphql/queries/categories";
 import { getPosts } from "@/lib/graphql/queries/posts";
+import { buildCategoryJsonLd } from "@/lib/structuredData";
 import type { Category, CategoryNode } from "@/types/wordpress";
 
 export const revalidate = 3600;
@@ -58,6 +60,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 py-12">
+      <JsonLd data={buildCategoryJsonLd(node, posts)} />
       <section className="flex flex-col gap-4">
         <p className="text-sm font-semibold uppercase tracking-wider text-neutral-500">
           Categoria

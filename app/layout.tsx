@@ -4,6 +4,7 @@ import { Lato } from "next/font/google";
 import { AccessibilityToolbar } from "@/components/accessibility/AccessibilityToolbar";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { SITE_URL } from "@/lib/wordpress";
 import "./globals.css";
 
 const lato = Lato({
@@ -36,6 +37,7 @@ const helveticaNeue = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Blog Mobility Brasil",
     template: "%s · Mobility Brasil",

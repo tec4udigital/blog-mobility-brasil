@@ -20,6 +20,21 @@ if (!WORDPRESS_API_URL) {
 
 export const DEFAULT_REVALIDATE_SECONDS = 60 * 60; // 1h fallback
 
+/**
+ * Domínio público do blog (front-end). Usado para montar canonical/OG a
+ * partir da própria rota do Next, em vez de confiar no `seo.canonical` do
+ * Yoast — o WordPress fica em domínio próprio e tem estrutura de URL
+ * (`/slug/`) diferente da rota headless (`/categoria/slug`).
+ */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://blog.mobilitybrasil.com.br"
+).replace(/\/$/, "");
+
+/** Hostname do backend WordPress — usado para higienizar campos do Yoast
+ * que vazam o domínio interno (ex.: %%sitename%% mal configurado). */
+export const WORDPRESS_HOSTNAME = new URL(WORDPRESS_API_URL as string)
+  .hostname;
+
 export interface GraphQLError {
   message: string;
   path?: ReadonlyArray<string | number>;

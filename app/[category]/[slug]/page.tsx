@@ -9,9 +9,10 @@ import { PostHero } from "@/components/blog/PostHero";
 import { PostShareSection } from "@/components/blog/PostShareSection";
 import { PostSidebar } from "@/components/blog/PostSidebar";
 import { RelatedPostsCarousel } from "@/components/blog/RelatedPostsCarousel";
-import { stripHtml } from "@/lib/format";
+import { stripHtml, stripWrongSiteName } from "@/lib/format";
 import { extractPostButtons } from "@/lib/postButtons";
 import { getPostBySlug } from "@/lib/graphql/queries/post";
+import { SITE_URL, WORDPRESS_HOSTNAME } from "@/lib/wordpress";
 import {
   getAllPostSlugs,
   getRecentPosts,
@@ -36,31 +37,45 @@ export async function generateStaticParams(): Promise<
 export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { category, slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Post não encontrado" };
 
   const seo = post.seo;
   const fallbackTitle = stripHtml(post.title);
-  const fallbackDescription = stripHtml(post.excerpt ?? "");
+  const fallbackDescription =
+    stripHtml(post.excerpt ?? "") || stripHtml(post.content).slice(0, 160);
   const ogImage =
     seo?.opengraphImage?.sourceUrl ?? post.featuredImage?.node?.sourceUrl ?? null;
 
+  // Canonical/OG URL sempre derivados da rota real do Next — o
+  // `seo.canonical`/`seo.opengraphUrl` do Yoast apontam para o domínio e a
+  // estrutura de URL do WordPress (`/slug/`), não para o blog público
+  // (`/categoria/slug`).
+  const canonicalUrl = `${SITE_URL}/${category}/${slug}`;
+
   return {
-    title: seo?.title ?? fallbackTitle,
-    description: seo?.metaDesc ?? fallbackDescription,
-    alternates: { canonical: seo?.canonical ?? undefined },
+    title:
+      stripWrongSiteName(seo?.title, WORDPRESS_HOSTNAME) || fallbackTitle,
+    description:
+      stripWrongSiteName(seo?.metaDesc, WORDPRESS_HOSTNAME) ||
+      fallbackDescription,
+    alternates: { canonical: canonicalUrl },
     keywords: seo?.metaKeywords ?? undefined,
     robots: {
       index: seo?.metaRobotsNoindex !== "noindex",
       follow: seo?.metaRobotsNofollow !== "nofollow",
     },
     openGraph: {
-      title: seo?.opengraphTitle ?? fallbackTitle,
-      description: seo?.opengraphDescription ?? fallbackDescription,
+      title:
+        stripWrongSiteName(seo?.opengraphTitle, WORDPRESS_HOSTNAME) ||
+        fallbackTitle,
+      description:
+        stripWrongSiteName(seo?.opengraphDescription, WORDPRESS_HOSTNAME) ||
+        fallbackDescription,
       type: "article",
-      url: seo?.opengraphUrl ?? undefined,
-      siteName: seo?.opengraphSiteName ?? undefined,
+      url: canonicalUrl,
+      siteName: seo?.opengraphSiteName ?? "Mobility Brasil",
       images: ogImage
         ? [
             {
@@ -74,8 +89,10 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: seo?.twitterTitle ?? fallbackTitle,
-      description: seo?.twitterDescription ?? fallbackDescription,
+      title: stripWrongSiteName(seo?.twitterTitle, WORDPRESS_HOSTNAME) || fallbackTitle,
+      description:
+        stripWrongSiteName(seo?.twitterDescription, WORDPRESS_HOSTNAME) ||
+        fallbackDescription,
       images: seo?.twitterImage?.sourceUrl
         ? [seo.twitterImage.sourceUrl]
         : ogImage

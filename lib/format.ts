@@ -32,6 +32,23 @@ export function stripHtml(html: string | null | undefined): string {
 }
 
 /**
+ * Remove um sufixo de "site name" indevido que o Yoast anexa a título/
+ * descrição quando o WordPress está com o nome/endereço do site mal
+ * configurado (ex.: apontando pro domínio de staging da Hostinger em vez
+ * do domínio público do blog). Sem isso o front acaba duplicando o
+ * branding (`%s · Mobility Brasil` do layout + sufixo errado do Yoast).
+ */
+export function stripWrongSiteName(
+  text: string | null | undefined,
+  wrongHostname: string,
+): string | null | undefined {
+  if (!text) return text;
+  const escaped = wrongHostname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(`\\s*[-–—|·]\\s*${escaped}\\s*$`, "i");
+  return text.replace(pattern, "").trim();
+}
+
+/**
  * Estima tempo de leitura em minutos a partir do HTML bruto do post.
  * Usa 200 palavras/minuto (média pt-BR) e arredonda para cima, com
  * mínimo de 1 min.

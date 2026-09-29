@@ -179,10 +179,15 @@ function mobility_revalidate_dispatch( array $tags, array $paths = array(), bool
 
 	$body = wp_json_encode( array( 'tags' => $tags, 'paths' => $paths ) );
 
+	// `blocking => false` (fire-and-forget) não garante que a requisição
+	// chegue a completar o handshake HTTPS + cold start da function na
+	// Vercel antes do processo PHP do WP encerrar a conexão — na prática
+	// o webhook nunca chegava a executar `revalidateTag`, deixando o post
+	// preso com a página antiga (ou um 404) em cache indefinidamente.
 	$args = array(
 		'method'    => 'POST',
-		'timeout'   => $return_diagnostic ? 10 : 4,
-		'blocking'  => $return_diagnostic,
+		'timeout'   => 10,
+		'blocking'  => true,
 		'headers'   => array(
 			'Content-Type'        => 'application/json',
 			'X-Revalidate-Secret' => $settings['secret'],
